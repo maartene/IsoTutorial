@@ -14,6 +14,8 @@
 		DE01F7D12B65296D00EAFF8F /* IsoTutorialTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE01F7D02B65296D00EAFF8F /* IsoTutorialTests.swift */; };
 		DE01F7DB2B65296D00EAFF8F /* IsoTutorialUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE01F7DA2B65296D00EAFF8F /* IsoTutorialUITests.swift */; };
 		DE01F7DD2B65296D00EAFF8F /* IsoTutorialUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE01F7DC2B65296D00EAFF8F /* IsoTutorialUITestsLaunchTests.swift */; };
+		DE01F7EA2B652E6A00EAFF8F /* IsoConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE01F7E92B652E6A00EAFF8F /* IsoConverter.swift */; };
+		DE01F7EC2B652EA600EAFF8F /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE01F7EB2B652EA600EAFF8F /* GameScene.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,6 +46,8 @@
 		DE01F7D62B65296D00EAFF8F /* IsoTutorialUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = IsoTutorialUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DE01F7DA2B65296D00EAFF8F /* IsoTutorialUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IsoTutorialUITests.swift; sourceTree = "<group>"; };
 		DE01F7DC2B65296D00EAFF8F /* IsoTutorialUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IsoTutorialUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		DE01F7E92B652E6A00EAFF8F /* IsoConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IsoConverter.swift; sourceTree = "<group>"; };
+		DE01F7EB2B652EA600EAFF8F /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,6 +102,8 @@
 				DE01F7C12B65296B00EAFF8F /* ContentView.swift */,
 				DE01F7C32B65296D00EAFF8F /* Assets.xcassets */,
 				DE01F7C52B65296D00EAFF8F /* Preview Content */,
+				DE01F7E92B652E6A00EAFF8F /* IsoConverter.swift */,
+				DE01F7EB2B652EA600EAFF8F /* GameScene.swift */,
 			);
 			path = IsoTutorial;
 			sourceTree = "<group>";
@@ -258,6 +264,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				DE01F7C22B65296B00EAFF8F /* ContentView.swift in Sources */,
+				DE01F7EA2B652E6A00EAFF8F /* IsoConverter.swift in Sources */,
+				DE01F7EC2B652EA600EAFF8F /* GameScene.swift in Sources */,
 				DE01F7C02B65296B00EAFF8F /* IsoTutorialApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
