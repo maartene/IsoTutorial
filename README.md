@@ -10,6 +10,8 @@ The goals of this project are to:
 * Resolve effects over time based on animations
 * Use Dijkstramaps for movevement and ability ranges and path finding
 
-## License:
+## Used assets:
 * This project uses the [Isometric Tiles Template for 32x32 pixel art by @javikolog](https://route1rodent.itch.io/isometric-sandbox-pixel-world-32x32)
+
+## License:
 * IsoTutorial © 2024 by thedreamweb.org is licensed under Attribution-ShareAlike 4.0 International 
