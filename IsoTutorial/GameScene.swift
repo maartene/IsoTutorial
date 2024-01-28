@@ -10,6 +10,14 @@ import SpriteKit
 
 final class GameScene: SKScene {
 
+    let map = [
+        [1,1,1,1,1],
+        [1,1,1,1,1],
+        [1,1,2,2,1],
+        [2,4,2,3,1],
+        [1,1,1,1,1],
+    ]
+    
     override func didMove(to view: SKView) {
         size = view.frame.size
         scaleMode = .aspectFill
@@ -20,16 +28,19 @@ final class GameScene: SKScene {
         addChild(cameraNode)
         self.camera = cameraNode
         
-        for y in -2 ..< 6 {
-            for x in -2 ..< 6 {
-                let sprite = SKSpriteNode(imageNamed: "Floor_Tile")
-                let screenPosition = convertWorldToScreen(Vector(x: x, y: y))
-                sprite.position = CGPoint(x: screenPosition.x, y: screenPosition.y)
-                sprite.zPosition = -Double(screenPosition.y)
-                addChild(sprite)
+        for y in 0 ..< map.count {
+            for x in 0 ..< map[y].count {
+                let elevation = map[y][x]
+                for z in 0 ..< elevation {
+                    let sprite = SKSpriteNode(imageNamed: "Floor_Tile")
+                    let position = Vector(x: x, y: y, z: z)
+                    let screenPosition = convertWorldToScreen(position)
+                    sprite.position = CGPoint(x: screenPosition.x, y: screenPosition.y)
+                    sprite.zPosition = convertWorldToZPosition(position)
+                    addChild(sprite)
+                }
             }
         }
-        
     }
     
 }
