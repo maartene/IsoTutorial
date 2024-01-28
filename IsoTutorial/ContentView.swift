@@ -9,9 +9,25 @@ import SwiftUI
 import SpriteKit
 
 struct ContentView: View {
+    let scene = GameScene()
+    
     var body: some View {
-        SpriteView(scene: GameScene())
-            .ignoresSafeArea()
+        ZStack {
+            SpriteView(scene: scene)
+            VStack {
+                Spacer()
+                HStack {
+                    Button("Rotate CCW") {
+                        scene.rotateCCW()
+                    }
+                    Button("Rotate CW") {
+                        scene.rotateCW()
+                    }                    
+                }
+            }
+        }
+        .ignoresSafeArea()
+            
     }
 }
 
