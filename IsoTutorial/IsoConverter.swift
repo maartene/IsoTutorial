@@ -41,7 +41,6 @@ func convertWorldToScreen(_ worldSpacePosition: Vector) -> Vector {
     return worldSpacePosition.x * xOffset + worldSpacePosition.y * yOffset + worldSpacePosition.z * zOffset
 }
 
-func convertWorldToZPosition(_ worldSpacePosition: Vector) -> Double {
-    let y = convertWorldToScreen(worldSpacePosition).y
-    return Double(-y + 16 * worldSpacePosition.z)
+func convertWorldToZPosition(_ worldSpacePosition: Vector) -> Int {
+    -convertWorldToScreen(worldSpacePosition).y + worldSpacePosition.z * 8 * 2
 }

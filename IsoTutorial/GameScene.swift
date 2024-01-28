@@ -10,7 +10,7 @@ import SpriteKit
 
 final class GameScene: SKScene {
 
-    let map = [
+    let heightmap = [
         [1,1,1,1,1],
         [1,1,1,1,1],
         [1,1,2,2,1],
@@ -28,15 +28,15 @@ final class GameScene: SKScene {
         addChild(cameraNode)
         self.camera = cameraNode
         
-        for y in 0 ..< map.count {
-            for x in 0 ..< map[y].count {
-                let elevation = map[y][x]
+        for y in 0 ..< heightmap.count {
+            for x in 0 ..< heightmap[y].count {
+                let elevation = heightmap[y][x]
                 for z in 0 ..< elevation {
                     let sprite = SKSpriteNode(imageNamed: "Floor_Tile")
                     let position = Vector(x: x, y: y, z: z)
                     let screenPosition = convertWorldToScreen(position)
                     sprite.position = CGPoint(x: screenPosition.x, y: screenPosition.y)
-                    sprite.zPosition = convertWorldToZPosition(position)
+                    sprite.zPosition = CGFloat(convertWorldToZPosition(position))
                     addChild(sprite)
                 }
             }
