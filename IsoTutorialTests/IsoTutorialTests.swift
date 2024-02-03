@@ -115,4 +115,101 @@ final class IsoTutorialTests: XCTestCase {
             }
         }
     }
+    
+    // MARK: Rotation
+    
+    func test_rotateCoordinate_returnsInputCoordinate_forDefaultRotation() {
+        let inputCoordinates = [
+            Vector(x: -1, y: 1, z: 0),
+            Vector(x: -3, y: 1, z: -2),
+            Vector(x: 3, y: 3, z: 2),
+        ]
+        
+        for coord in inputCoordinates {
+            XCTAssertEqual(rotateCoordinate(coord, direction: .defaultRotation), coord)
+        }
+    }
+    
+    func test_rotateCoordinate_returnsExpectedCoordinates_forClockWiseRotation() throws {
+        let inputCoordinates = [
+            Vector(x: 5, y: 2, z: 0),
+            Vector(x: -1, y: 3, z: 0),
+            Vector(x: -3, y: -7, z: 0),
+            Vector(x: 4, y: -2, z: 0),
+        ]
+        
+        let expectedCoordinates = [
+            Vector(x: 2, y: -5, z: 0),
+            Vector(x: 3, y: 1, z: 0),
+            Vector(x: -7, y: 3, z: 0),
+            Vector(x: -2, y: -4, z: 0),
+        ]
+        
+        for i in 0 ..< inputCoordinates.count {
+            XCTAssertEqual(rotateCoordinate(inputCoordinates[i], direction: .defaultRotation.rotated90DegreesClockwise), expectedCoordinates[i])
+        }
+    }
+    
+    func test_rotateCoordinate_returnsExpectedCoordinates_forCounterClockWiseRotation() throws {
+        let inputCoordinates = [
+            Vector(x: 2, y: -5, z: 0),
+            Vector(x: 3, y: 1, z: 0),
+            Vector(x: -7, y: 3, z: 0),
+            Vector(x: -2, y: -4, z: 0),
+        ]
+        
+        let expectedCoordinates = [
+            Vector(x: 5, y: 2, z: 0),
+            Vector(x: -1, y: 3, z: 0),
+            Vector(x: -3, y: -7, z: 0),
+            Vector(x: 4, y: -2, z: 0),
+        ]
+        
+        for i in 0 ..< inputCoordinates.count {
+            XCTAssertEqual(rotateCoordinate(inputCoordinates[i], direction: .defaultRotation.rotated90DegreesCounterClockwise), expectedCoordinates[i])
+        }
+    }
+    
+    func test_rotateCoordinate_doesNotChangeZproperty() {
+        let inputCoordinates = [
+            Vector(x: 2, y: -5, z: 5),
+            Vector(x: 3, y: 1, z: -2),
+            Vector(x: -7, y: 3, z: 4),
+            Vector(x: -2, y: -4, z: -8),
+        ]
+        
+        for inputCoordinate in inputCoordinates {
+            XCTAssertEqual(rotateCoordinate(inputCoordinate, direction: .defaultRotation.rotated90DegreesClockwise).z, inputCoordinate.z)
+        }
+    }
+    
+    func test_convertWorldToScreen_takesRotationIntoAccount() {
+        let rotations: [Rotation] = [.degrees45, .degrees135, .degrees225, .degrees315]
+        for _ in 0 ..< 10 {
+            for rotation in rotations {
+                let coord = Vector.random
+                let convertedCoordinate = convertWorldToScreen(coord, direction: rotation)
+                
+                let rotatedCoord = rotateCoordinate(coord, direction: rotation)
+                let expectedCoord = convertWorldToScreen(rotatedCoord)
+                
+                XCTAssertEqual(convertedCoordinate, expectedCoord)
+            }
+        }
+    }
+    
+    func test_convertWorldToZPosition_takesRotationIntoAccount() {
+        let rotations: [Rotation] = [.degrees45, .degrees135, .degrees225, .degrees315]
+        for _ in 0 ..< 10 {
+            for rotation in rotations {
+                let coord = Vector.random
+                let convertedCoordinate = convertWorldToZPosition(coord, direction: rotation)
+                
+                let rotatedCoord = rotateCoordinate(coord, direction: rotation)
+                let expectedCoord = convertWorldToZPosition(rotatedCoord)
+                
+                XCTAssertEqual(convertedCoordinate, expectedCoord)
+            }
+        }
+    }
 }
