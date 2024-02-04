@@ -22,6 +22,8 @@ final class GameScene: SKScene {
     let cameraNode = SKCameraNode()
     let rootNode = SKNode()
     
+    var knightRotation = Rotation.defaultRotation
+    
     override func didMove(to view: SKView) {
         size = view.frame.size
         scaleMode = .aspectFill
@@ -61,13 +63,14 @@ final class GameScene: SKScene {
             }
         }
         
-        let circle = SKShapeNode(circleOfRadius: 8)
-        circle.fillColor = .red
-        let position = Vector(x: 4, y: 4, z: 1)
+        let sprite = SKSpriteNode(imageNamed: "Knight_Idle_45_0")
+        sprite.anchorPoint = CGPoint(x: 0.5, y: 0.4)
+        sprite.run(getKnightIdleAnimation(lookRotation: knightRotation))
+        let position = Vector(x: 1, y: 1, z: 1)
         let screenPosition = convertWorldToScreen(position, direction: rotation)
-        circle.position = CGPoint(x: screenPosition.x, y: screenPosition.y)
-        circle.zPosition = CGFloat(convertWorldToZPosition(position, direction: rotation))
-        rootNode.addChild(circle)
+        sprite.position = CGPoint(x: screenPosition.x, y: screenPosition.y)
+        sprite.zPosition = CGFloat(convertWorldToZPosition(position, direction: rotation))  + 0.001
+        rootNode.addChild(sprite)
     }
     
     func rotateCW() {
@@ -78,5 +81,33 @@ final class GameScene: SKScene {
     func rotateCCW() {
         rotation = rotation.rotated90DegreesCounterClockwise
         redraw()
+    }
+    
+    func rotateKnightCW() {
+        knightRotation = knightRotation.rotated90DegreesClockwise
+        redraw()
+    }
+    
+    func rotateKnightCCW() {
+        knightRotation = knightRotation.rotated90DegreesCounterClockwise
+        redraw()
+    }
+    
+    func getKnightIdleAnimation(lookRotation: Rotation) -> SKAction {
+        let viewRotation = lookRotation.withReferenceRotation(rotation)
+        let frames = [
+            "Knight_Idle_\(viewRotation.rawValue)_0",
+            "Knight_Idle_\(viewRotation.rawValue)_1",
+            "Knight_Idle_\(viewRotation.rawValue)_2",
+            "Knight_Idle_\(viewRotation.rawValue)_3"
+        ]
+            .map { SKTexture(imageNamed: $0) }
+            .map { frame in
+                frame.filteringMode = .nearest
+                return frame
+            }
+        
+        return SKAction.repeatForever(SKAction.animate(with: frames, timePerFrame: 0.25))
+        
     }
 }

@@ -17,6 +17,14 @@ struct ContentView: View {
             VStack {
                 Spacer()
                 HStack {
+                    Button("Rotate Knight CCW") {
+                        scene.rotateKnightCCW()
+                    }
+                    Button("Rotate CW") {
+                        scene.rotateKnightCW()
+                    }
+                }
+                HStack {
                     Button("Rotate CCW") {
                         scene.rotateCCW()
                     }
