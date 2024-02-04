@@ -57,15 +57,7 @@ final class GameScene: SKScene {
                     rootNode.addChild(sprite)
                 }
             }
-        }
-        
-        let circle = SKShapeNode(circleOfRadius: 8)
-        circle.fillColor = .red
-        let position = Vector(x: 4, y: 4, z: 1)
-        let screenPosition = convertWorldToScreen(position, direction: rotation)
-        circle.position = CGPoint(x: screenPosition.x, y: screenPosition.y)
-        circle.zPosition = CGFloat(convertWorldToZPosition(position, direction: rotation))
-        rootNode.addChild(circle)
+        }        
     }
     
     func rotateCW() {
