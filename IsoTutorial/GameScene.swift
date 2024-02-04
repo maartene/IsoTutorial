@@ -28,6 +28,7 @@ final class GameScene: SKScene {
         
         let cameraScreenPosition = convertWorldToScreen(Vector(x: 2, y: 2))
         cameraNode.position = CGPoint(x: cameraScreenPosition.x, y: cameraScreenPosition.y)
+        cameraNode.setScale(0.5)
         addChild(cameraNode)
         self.camera = cameraNode
         
@@ -50,6 +51,7 @@ final class GameScene: SKScene {
                 let elevation = heightmap[y][x]
                 for z in 0 ..< elevation {
                     let sprite = SKSpriteNode(imageNamed: "Floor_Tile")
+                    sprite.texture?.filteringMode = .nearest
                     let position = Vector(x: x, y: y, z: z)
                     let screenPosition = convertWorldToScreen(position, direction: rotation)
                     sprite.position = CGPoint(x: screenPosition.x, y: screenPosition.y)
