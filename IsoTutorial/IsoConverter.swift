@@ -28,6 +28,10 @@ enum Rotation: Int {
         let rotatedDegrees = (degrees + 90) % 360
         return Rotation(rawValue: rotatedDegrees)!
     }
+    
+    func withReferenceRotation(_ referenceRotation: Rotation) -> Rotation {
+        Rotation(rawValue: (rawValue + referenceRotation.rawValue - Rotation.defaultRotation.rawValue) % 360)!
+    }
 }
 
 struct Vector {

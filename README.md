@@ -15,7 +15,10 @@ The goals of this project are to:
 
 ## Used assets:
 
-- This project uses the [Isometric Tiles Template for 32x32 pixel art by @javikolog](https://route1rodent.itch.io/isometric-sandbox-pixel-world-32x32)
+This project uses the following assets:
+
+- [Isometric Tiles Template for 32x32 pixel art by @javikolog](https://route1rodent.itch.io/isometric-sandbox-pixel-world-32x32)
+- [KayKit - Character Pack : Adventurers](https://kaylousberg.itch.io/kaykit-adventurers)
 
 ## License:
 

@@ -17,6 +17,14 @@ struct ContentView: View {
             VStack {
                 Spacer()
                 HStack {
+                    Button("Rotate Knight CCW") {
+                        scene.rotateKnightCCW()
+                    }
+                    Button("Rotate Knight CW") {
+                        scene.rotateKnightCW()
+                    }
+                }
+                HStack {
                     Button("Rotate CCW") {
                         scene.rotateCCW()
                     }
@@ -25,6 +33,7 @@ struct ContentView: View {
                     }                    
                 }
             }
+            .padding()
         }
         .ignoresSafeArea()
             
