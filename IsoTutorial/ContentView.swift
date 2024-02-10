@@ -16,6 +16,9 @@ struct ContentView: View {
             SpriteView(scene: scene)
             VStack {
                 Spacer()
+                Button("Random!") {
+                    scene.moveRandomEntityToRandomPosition()
+                }
                 HStack {
                     Button("Rotate Knight CCW") {
                         scene.rotateKnightCCW()
