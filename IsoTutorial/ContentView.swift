@@ -13,14 +13,14 @@ struct ContentView: View {
     
     var body: some View {
         ZStack {
-            SpriteView(scene: scene, debugOptions: [.showsDrawCount, .showsFPS, .showsNodeCount])
+            SpriteView(scene: scene)
             VStack {
                 Spacer()
                 HStack {
                     Button("Rotate Knight CCW") {
                         scene.rotateKnightCCW()
                     }
-                    Button("Rotate CW") {
+                    Button("Rotate Knight CW") {
                         scene.rotateKnightCW()
                     }
                 }
@@ -32,7 +32,8 @@ struct ContentView: View {
                         scene.rotateCW()
                     }                    
                 }
-            }.padding()
+            }
+            .padding()
         }
         .ignoresSafeArea()
             

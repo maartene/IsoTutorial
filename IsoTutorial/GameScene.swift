@@ -22,7 +22,7 @@ final class GameScene: SKScene {
     let cameraNode = SKCameraNode()
     let rootNode = SKNode()
     
-    var knightRotation = Rotation.defaultRotation
+    var knightRotation = Rotation.degrees45
     
     override func didMove(to view: SKView) {
         size = view.frame.size
@@ -61,16 +61,16 @@ final class GameScene: SKScene {
                     rootNode.addChild(sprite)
                 }
             }
-        }
+        } 
         
-        let sprite = SKSpriteNode(imageNamed: "Knight_Idle_45_0")
-        sprite.anchorPoint = CGPoint(x: 0.5, y: 0.4)
-        sprite.run(getKnightIdleAnimation(lookRotation: knightRotation))
-        let position = Vector(x: 1, y: 1, z: 1)
-        let screenPosition = convertWorldToScreen(position, direction: rotation)
-        sprite.position = CGPoint(x: screenPosition.x, y: screenPosition.y)
-        sprite.zPosition = CGFloat(convertWorldToZPosition(position, direction: rotation))  + 0.001
-        rootNode.addChild(sprite)
+        let knight = SKSpriteNode(imageNamed: "Knight_Idle_225_0")
+        let knightPosition = Vector(x: 1, y: 1, z: 1)
+        let knightScreenPosition = convertWorldToScreen(knightPosition, direction: rotation)
+        knight.anchorPoint = CGPoint(x: 0.5, y: 0.4)
+        knight.position = CGPoint(x: knightScreenPosition.x, y: knightScreenPosition.y)
+        knight.zPosition = CGFloat(convertWorldToZPosition(knightPosition, direction: rotation))
+        knight.run(getKnightIdleAnimation(lookRotation: knightRotation))
+        rootNode.addChild(knight)
     }
     
     func rotateCW() {
@@ -99,7 +99,7 @@ final class GameScene: SKScene {
             "Knight_Idle_\(viewRotation.rawValue)_0",
             "Knight_Idle_\(viewRotation.rawValue)_1",
             "Knight_Idle_\(viewRotation.rawValue)_2",
-            "Knight_Idle_\(viewRotation.rawValue)_3"
+            "Knight_Idle_\(viewRotation.rawValue)_3",
         ]
             .map { SKTexture(imageNamed: $0) }
             .map { frame in
@@ -107,7 +107,7 @@ final class GameScene: SKScene {
                 return frame
             }
         
-        return SKAction.repeatForever(SKAction.animate(with: frames, timePerFrame: 0.25))
-        
+        let idleAnimation = SKAction.animate(with: frames, timePerFrame: 0.25)
+        return SKAction.repeatForever(idleAnimation)
     }
 }

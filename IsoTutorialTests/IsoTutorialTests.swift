@@ -219,7 +219,7 @@ final class IsoTutorialTests: XCTestCase {
         }
     }
     
-    func test_rotationWithReferenceRotation_takesReferenceLocationIntoAccount() {
+    func test_rotationWithReferenceRotation_takesReferenceRotationIntoAccount() {
         let testcases: [(lookRotation: Rotation, referenceRotation: Rotation, resultingRotation: Rotation)] = [
             (.degrees45, .degrees135, .degrees135),
             (.degrees135, .degrees135, .degrees225),
@@ -232,7 +232,7 @@ final class IsoTutorialTests: XCTestCase {
             (.degrees45, .degrees315, .degrees315),
             (.degrees135, .degrees315, .degrees45),
             (.degrees225, .degrees315, .degrees135),
-            (.degrees315, .degrees315, .degrees225),
+            (.degrees315, .degrees315, .degrees225)
         ]
         
         for testcase in testcases {
