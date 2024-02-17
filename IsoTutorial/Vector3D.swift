@@ -23,7 +23,7 @@ struct Vector3D {
     }
     
     static func +(lhs: Vector3D, rhs: Vector3D) -> Vector3D {
-        Vector3D(x: lhs.x + rhs.x, y: lhs.y + rhs.y)
+        Vector3D(x: lhs.x + rhs.x, y: lhs.y + rhs.y, z: lhs.z + rhs.z)
     }
     
     static func *(scalar: Int, vector: Vector3D) -> Vector3D {

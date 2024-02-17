@@ -12,13 +12,13 @@ final class IsoTutorialTests: XCTestCase {
 
     func test_increasingXbyOne_OffsetsXandYInScreenSpace_by_16and8() {
         let coordinateInWorldSpace = Vector3D(x: 1, y: 0)
-        let expectedCoordinateInScreenSpace = Vector3D(x: 16, y: 8)
+        let expectedCoordinateInScreenSpace = Vector2D(x: 16, y: 8)
         XCTAssertEqual(convertWorldToScreen(coordinateInWorldSpace), expectedCoordinateInScreenSpace)
     }
     
     func test_increasingYByOne_OffsetsXandYInScreenSpace_by_minus16and8() {
         let coordinateInWorldSpace = Vector3D(x: 0, y: 1)
-        let expectedCoordinateInScreenSpace = Vector3D(x: -16, y: 8)
+        let expectedCoordinateInScreenSpace = Vector2D(x: -16, y: 8)
         XCTAssertEqual(convertWorldToScreen(coordinateInWorldSpace), expectedCoordinateInScreenSpace)
     }
     
@@ -33,12 +33,12 @@ final class IsoTutorialTests: XCTestCase {
         ]
         
         let expectedScreenSpaceCoordinates = [
-            Vector3D(x: -48, y: 8),
-            Vector3D(x: 0, y: 32),
-            Vector3D(x: 48, y: 8),
-            Vector3D(x: -16, y: -8),
-            Vector3D(x: 16, y: -8),
-            Vector3D(x: 0, y: -16),
+            Vector2D(x: -48, y: 8),
+            Vector2D(x: 0, y: 32),
+            Vector2D(x: 48, y: 8),
+            Vector2D(x: -16, y: -8),
+            Vector2D(x: 16, y: -8),
+            Vector2D(x: 0, y: -16),
         ]
         
         for i in 0 ..< worldCoordinates.count {
@@ -49,7 +49,7 @@ final class IsoTutorialTests: XCTestCase {
     // MARK: 3rd dimension
     func test_convertWorldToScreen_increasingZByOne_movesYby8() {
         let coordinateInWorldSpace = Vector3D(x: 0, y: 0, z: 1)
-        let expectedCoordinateInScreenSpace = Vector3D(x: 0, y: 8)
+        let expectedCoordinateInScreenSpace = Vector2D(x: 0, y: 8)
         XCTAssertEqual(convertWorldToScreen(coordinateInWorldSpace), expectedCoordinateInScreenSpace)
     }
     
@@ -62,10 +62,10 @@ final class IsoTutorialTests: XCTestCase {
         ]
         
         let expectedScreenSpaceCoordinates = [
-            Vector3D(x: 16, y: 16),
-            Vector3D(x: 0, y: 32),
-            Vector3D(x: -16, y: 0),
-            Vector3D(x: -48, y: 24),
+            Vector2D(x: 16, y: 16),
+            Vector2D(x: 0, y: 32),
+            Vector2D(x: -16, y: 0),
+            Vector2D(x: -48, y: 24),
         ]
         for i in 0 ..< worldCoordinates.count {
             XCTAssertEqual(convertWorldToScreen(worldCoordinates[i]), expectedScreenSpaceCoordinates[i])

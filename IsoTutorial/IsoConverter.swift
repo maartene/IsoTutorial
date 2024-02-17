@@ -34,10 +34,10 @@ enum Rotation: Int {
     }
 }
 
-func convertWorldToScreen(_ worldSpacePosition: Vector3D, direction: Rotation = .defaultRotation) -> Vector3D {
-    let xOffset = Vector3D(x: 16, y: 8)
-    let yOffset = Vector3D(x: -16, y: 8)
-    let zOffset = Vector3D(x: 0, y: 8)
+func convertWorldToScreen(_ worldSpacePosition: Vector3D, direction: Rotation = .defaultRotation) -> Vector2D {
+    let xOffset = Vector2D(x: 16, y: 8)
+    let yOffset = Vector2D(x: -16, y: 8)
+    let zOffset = Vector2D(x: 0, y: 8)
     
     let rotatedWorldSpacePosition = rotateCoordinate(worldSpacePosition, direction: direction)
     
