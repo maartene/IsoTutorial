@@ -22,7 +22,11 @@ final class GameScene: SKScene {
     let cameraNode = SKCameraNode()
     let rootNode = SKNode()
     
-    var knightRotation = Rotation.degrees45
+    let entities = [
+        Entity(sprite: "Knight", startPosition: Vector(x: 1, y: 1, z: 1)),
+        Entity(sprite: "Knight", startPosition: Vector(x: 3, y: 3, z: 3)),
+        Entity(sprite: "Rogue", startPosition: Vector(x: 4, y: 0, z: 1))
+    ]
     
     override func didMove(to view: SKView) {
         size = view.frame.size
@@ -63,14 +67,17 @@ final class GameScene: SKScene {
             }
         } 
         
-        let knight = SKSpriteNode(imageNamed: "Knight_Idle_225_0")
-        let knightPosition = Vector(x: 1, y: 1, z: 1)
-        let knightScreenPosition = convertWorldToScreen(knightPosition, direction: rotation)
-        knight.anchorPoint = CGPoint(x: 0.5, y: 0.4)
-        knight.position = CGPoint(x: knightScreenPosition.x, y: knightScreenPosition.y)
-        knight.zPosition = CGFloat(convertWorldToZPosition(knightPosition, direction: rotation))
-        knight.run(getKnightIdleAnimation(lookRotation: knightRotation))
-        rootNode.addChild(knight)
+        for entity in entities {
+            let sprite = SKSpriteNode(imageNamed: getIdleAnimationFirstFrameNameForEntity(entity, referenceRotation: rotation))
+            let entityScreenPosition = convertWorldToScreen(entity.position, direction: rotation)
+            sprite.anchorPoint = CGPoint(x: 0.5, y: 0.4)
+            sprite.position = CGPoint(x: entityScreenPosition.x, y: entityScreenPosition.y)
+            sprite.zPosition = CGFloat(convertWorldToZPosition(entity.position, direction: rotation))
+            sprite.run(getIdleAnimationForEntity(entity))
+            rootNode.addChild(sprite)
+        }
+        
+        
     }
     
     func rotateCW() {
@@ -84,22 +91,31 @@ final class GameScene: SKScene {
     }
     
     func rotateKnightCW() {
-        knightRotation = knightRotation.rotated90DegreesClockwise
+        entities[0].rotation = entities[0].rotation.rotated90DegreesClockwise
         redraw()
     }
     
     func rotateKnightCCW() {
-        knightRotation = knightRotation.rotated90DegreesCounterClockwise
+        entities[0].rotation = entities[0].rotation.rotated90DegreesCounterClockwise
         redraw()
     }
     
-    func getKnightIdleAnimation(lookRotation: Rotation) -> SKAction {
-        let viewRotation = lookRotation.withReferenceRotation(rotation)
+    func moveRandomEntityToRandomPosition() {
+        let entity = entities.randomElement()!
+        let x = (0 ..< heightmap[0].count).randomElement()!
+        let y = (0 ..< heightmap.count).randomElement()!
+        let z = heightmap[y][x]
+        entity.position = Vector(x: x, y: y, z: z)
+        redraw()
+    }
+    
+    func getIdleAnimationForEntity(_ entity: Entity) -> SKAction {
+        let animationName = getIdleAnimationNameForEntity(entity, referenceRotation: rotation)
         let frames = [
-            "Knight_Idle_\(viewRotation.rawValue)_0",
-            "Knight_Idle_\(viewRotation.rawValue)_1",
-            "Knight_Idle_\(viewRotation.rawValue)_2",
-            "Knight_Idle_\(viewRotation.rawValue)_3",
+            "\(animationName)_0",
+            "\(animationName)_1",
+            "\(animationName)_2",
+            "\(animationName)_3",
         ]
             .map { SKTexture(imageNamed: $0) }
             .map { frame in

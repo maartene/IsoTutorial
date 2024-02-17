@@ -16,6 +16,7 @@
 		DE01F7DD2B65296D00EAFF8F /* IsoTutorialUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE01F7DC2B65296D00EAFF8F /* IsoTutorialUITestsLaunchTests.swift */; };
 		DE01F7EA2B652E6A00EAFF8F /* IsoConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE01F7E92B652E6A00EAFF8F /* IsoConverter.swift */; };
 		DE01F7EC2B652EA600EAFF8F /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE01F7EB2B652EA600EAFF8F /* GameScene.swift */; };
+		DE9254D12B80C07D0037F961 /* Entity.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE9254D02B80C07D0037F961 /* Entity.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,6 +49,7 @@
 		DE01F7DC2B65296D00EAFF8F /* IsoTutorialUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IsoTutorialUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		DE01F7E92B652E6A00EAFF8F /* IsoConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IsoConverter.swift; sourceTree = "<group>"; };
 		DE01F7EB2B652EA600EAFF8F /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
+		DE9254D02B80C07D0037F961 /* Entity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Entity.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,6 +106,7 @@
 				DE01F7C52B65296D00EAFF8F /* Preview Content */,
 				DE01F7E92B652E6A00EAFF8F /* IsoConverter.swift */,
 				DE01F7EB2B652EA600EAFF8F /* GameScene.swift */,
+				DE9254D02B80C07D0037F961 /* Entity.swift */,
 			);
 			path = IsoTutorial;
 			sourceTree = "<group>";
@@ -264,6 +267,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DE01F7C22B65296B00EAFF8F /* ContentView.swift in Sources */,
+				DE9254D12B80C07D0037F961 /* Entity.swift in Sources */,
 				DE01F7EA2B652E6A00EAFF8F /* IsoConverter.swift in Sources */,
 				DE01F7EC2B652EA600EAFF8F /* GameScene.swift in Sources */,
 				DE01F7C02B65296B00EAFF8F /* IsoTutorialApp.swift in Sources */,

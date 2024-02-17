@@ -60,6 +60,10 @@ struct Vector {
     static var random: Vector {
         Vector(x: Int.random(in: -1000...1000), y: Int.random(in: -1000...1000), z: Int.random(in: -1000...1000))
     }
+    
+    static var zero: Vector {
+        Vector(x: 0, y: 0, z: 0)
+    }
 }
 
 extension Vector: Equatable { }
@@ -89,4 +93,21 @@ func rotateCoordinate(_ coord: Vector, direction: Rotation) -> Vector {
     case .degrees135:
         return Vector(x: -coord.y, y: coord.x, z: coord.z)
     }
+}
+
+let spriteAnimationMap = [
+    "Rogue":
+        [
+            "Idle": "2H_Melee_Idle"
+        ]
+]
+
+func getIdleAnimationFirstFrameNameForEntity(_ entity: Entity, referenceRotation: Rotation = .defaultRotation) -> String {
+    getIdleAnimationNameForEntity(entity, referenceRotation: referenceRotation) + "_0"
+}
+
+func getIdleAnimationNameForEntity(_ entity: Entity, referenceRotation: Rotation = .defaultRotation) -> String {
+    let animationName = spriteAnimationMap[entity.sprite]?["Idle"] ?? "Idle"
+    let viewRotation = entity.rotation.withReferenceRotation(referenceRotation)
+    return "\(entity.sprite)_\(animationName)_\(viewRotation.rawValue)"
 }

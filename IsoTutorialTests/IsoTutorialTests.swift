@@ -239,4 +239,125 @@ final class IsoTutorialTests: XCTestCase {
             XCTAssertEqual(testcase.lookRotation.withReferenceRotation(testcase.referenceRotation), testcase.resultingRotation)
         }
     }
+    
+    // MARK: Animation names tests
+    func test_getIdleAnimationFirstFrameNameForEntity_whenKnightIsPassedIn() {
+        let testcases: [(sprite: String, rotation: Rotation, expected: String)] = [
+            ("Knight", .degrees45, "Knight_Idle_45_0"),
+            ("Knight", .degrees135, "Knight_Idle_135_0"),
+            ("Knight", .degrees225, "Knight_Idle_225_0"),
+            ("Knight", .degrees315, "Knight_Idle_315_0"),
+        ]
+        
+        for testcase in testcases {
+            let entity = Entity(sprite: testcase.sprite, startPosition: .zero)
+            entity.rotation = testcase.rotation
+            XCTAssertEqual(getIdleAnimationFirstFrameNameForEntity(entity), testcase.expected)
+        }
+    }
+    
+    func test_getIdleAnimationFirstFrameNameForEntity_whenKnightIsPassedIn_andMapViewIsRotated() {
+        let testcases: [(sprite: String, rotation: Rotation, expected: String)] = [
+            ("Knight", .degrees45, "Knight_Idle_135_0"),
+            ("Knight", .degrees135, "Knight_Idle_225_0"),
+            ("Knight", .degrees225, "Knight_Idle_315_0"),
+            ("Knight", .degrees315, "Knight_Idle_45_0"),
+        ]
+        
+        for testcase in testcases {
+            let entity = Entity(sprite: testcase.sprite, startPosition: .zero)
+            entity.rotation = testcase.rotation
+            XCTAssertEqual(getIdleAnimationFirstFrameNameForEntity(entity, referenceRotation: .degrees135), testcase.expected)
+        }
+    }
+    
+    func test_getIdleAnimationFirstFrameNameForEntity_whenRogueIsPassedIn() {
+        let testcases: [(sprite: String, rotation: Rotation, expected: String)] = [
+            ("Rogue", .degrees45,  "Rogue_2H_Melee_Idle_45_0"),
+            ("Rogue", .degrees135, "Rogue_2H_Melee_Idle_135_0"),
+            ("Rogue", .degrees225, "Rogue_2H_Melee_Idle_225_0"),
+            ("Rogue", .degrees315, "Rogue_2H_Melee_Idle_315_0"),
+        ]
+        
+        for testcase in testcases {
+            let entity = Entity(sprite: testcase.sprite, startPosition: .zero)
+            entity.rotation = testcase.rotation
+            XCTAssertEqual(getIdleAnimationFirstFrameNameForEntity(entity), testcase.expected)
+        }
+    }
+    
+    func test_getIdleAnimationFirstFrameNameForEntity_whenRogueIsPassedIn_andMapViewIsRotated() {
+        let testcases: [(sprite: String, rotation: Rotation, expected: String)] = [
+            ("Rogue", .degrees45,  "Rogue_2H_Melee_Idle_135_0"),
+            ("Rogue", .degrees135, "Rogue_2H_Melee_Idle_225_0"),
+            ("Rogue", .degrees225, "Rogue_2H_Melee_Idle_315_0"),
+            ("Rogue", .degrees315, "Rogue_2H_Melee_Idle_45_0"),
+        ]
+        
+        for testcase in testcases {
+            let entity = Entity(sprite: testcase.sprite, startPosition: .zero)
+            entity.rotation = testcase.rotation
+            XCTAssertEqual(getIdleAnimationFirstFrameNameForEntity(entity, referenceRotation: .degrees135), testcase.expected)
+        }
+    }
+    
+    func test_getIdleAnimationNameForEntity_whenKnightIsPassedIn() {
+        let testcases: [(sprite: String, rotation: Rotation, expected: String)] = [
+            ("Knight", .degrees45,  "Knight_Idle_45"),
+            ("Knight", .degrees135, "Knight_Idle_135"),
+            ("Knight", .degrees225, "Knight_Idle_225"),
+            ("Knight", .degrees315, "Knight_Idle_315"),
+        ]
+        
+        for testcase in testcases {
+            let entity = Entity(sprite: testcase.sprite, startPosition: .zero)
+            entity.rotation = testcase.rotation
+            XCTAssertEqual(getIdleAnimationNameForEntity(entity), testcase.expected)
+        }
+    }
+    
+    func test_getIdleAnimationNameForEntity_whenKnightIsPassedIn_andMapViewIsRotated() {
+        let testcases: [(sprite: String, rotation: Rotation, expected: String)] = [
+            ("Knight", .degrees45, "Knight_Idle_135"),
+            ("Knight", .degrees135, "Knight_Idle_225"),
+            ("Knight", .degrees225, "Knight_Idle_315"),
+            ("Knight", .degrees315, "Knight_Idle_45"),
+        ]
+        
+        for testcase in testcases {
+            let entity = Entity(sprite: testcase.sprite, startPosition: .zero)
+            entity.rotation = testcase.rotation
+            XCTAssertEqual(getIdleAnimationNameForEntity(entity, referenceRotation: .degrees135), testcase.expected)
+        }
+    }
+    
+    func test_getIdleAnimationNameForEntity_whenRogueIsPassedIn() {
+        let testcases: [(sprite: String, rotation: Rotation, expected: String)] = [
+            ("Rogue", .degrees45,  "Rogue_2H_Melee_Idle_45"),
+            ("Rogue", .degrees135, "Rogue_2H_Melee_Idle_135"),
+            ("Rogue", .degrees225, "Rogue_2H_Melee_Idle_225"),
+            ("Rogue", .degrees315, "Rogue_2H_Melee_Idle_315"),
+        ]
+        
+        for testcase in testcases {
+            let entity = Entity(sprite: testcase.sprite, startPosition: .zero)
+            entity.rotation = testcase.rotation
+            XCTAssertEqual(getIdleAnimationNameForEntity(entity), testcase.expected)
+        }
+    }
+    
+    func test_getIdleAnimationNameForEntity_whenRogueIsPassedIn_andMapViewIsRotated() {
+        let testcases: [(sprite: String, rotation: Rotation, expected: String)] = [
+            ("Rogue", .degrees45,  "Rogue_2H_Melee_Idle_135"),
+            ("Rogue", .degrees135, "Rogue_2H_Melee_Idle_225"),
+            ("Rogue", .degrees225, "Rogue_2H_Melee_Idle_315"),
+            ("Rogue", .degrees315, "Rogue_2H_Melee_Idle_45"),
+        ]
+        
+        for testcase in testcases {
+            let entity = Entity(sprite: testcase.sprite, startPosition: .zero)
+            entity.rotation = testcase.rotation
+            XCTAssertEqual(getIdleAnimationNameForEntity(entity, referenceRotation: .degrees135), testcase.expected)
+        }
+    }
 }
