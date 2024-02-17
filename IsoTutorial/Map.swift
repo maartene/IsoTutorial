@@ -7,11 +7,6 @@
 
 import Foundation
 
-enum TileType {
-    case void
-    case terrain
-}
-
 struct Map {
     let colCount: Int
     let rowCount: Int
