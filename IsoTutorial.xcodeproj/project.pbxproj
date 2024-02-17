@@ -17,6 +17,10 @@
 		DE01F7EA2B652E6A00EAFF8F /* IsoConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE01F7E92B652E6A00EAFF8F /* IsoConverter.swift */; };
 		DE01F7EC2B652EA600EAFF8F /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE01F7EB2B652EA600EAFF8F /* GameScene.swift */; };
 		DE9254D12B80C07D0037F961 /* Entity.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE9254D02B80C07D0037F961 /* Entity.swift */; };
+		DE9254D32B80DF500037F961 /* Map.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE9254D22B80DF500037F961 /* Map.swift */; };
+		DE9254D52B80DF9D0037F961 /* MapTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE9254D42B80DF9D0037F961 /* MapTests.swift */; };
+		DE9254D72B80E0B80037F961 /* Vector3D.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE9254D62B80E0B80037F961 /* Vector3D.swift */; };
+		DE9254D92B80E0F20037F961 /* Vector2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE9254D82B80E0F20037F961 /* Vector2D.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,6 +54,10 @@
 		DE01F7E92B652E6A00EAFF8F /* IsoConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IsoConverter.swift; sourceTree = "<group>"; };
 		DE01F7EB2B652EA600EAFF8F /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 		DE9254D02B80C07D0037F961 /* Entity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Entity.swift; sourceTree = "<group>"; };
+		DE9254D22B80DF500037F961 /* Map.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Map.swift; sourceTree = "<group>"; };
+		DE9254D42B80DF9D0037F961 /* MapTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapTests.swift; sourceTree = "<group>"; };
+		DE9254D62B80E0B80037F961 /* Vector3D.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vector3D.swift; sourceTree = "<group>"; };
+		DE9254D82B80E0F20037F961 /* Vector2D.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vector2D.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,6 +115,9 @@
 				DE01F7E92B652E6A00EAFF8F /* IsoConverter.swift */,
 				DE01F7EB2B652EA600EAFF8F /* GameScene.swift */,
 				DE9254D02B80C07D0037F961 /* Entity.swift */,
+				DE9254D22B80DF500037F961 /* Map.swift */,
+				DE9254D62B80E0B80037F961 /* Vector3D.swift */,
+				DE9254D82B80E0F20037F961 /* Vector2D.swift */,
 			);
 			path = IsoTutorial;
 			sourceTree = "<group>";
@@ -123,6 +134,7 @@
 			isa = PBXGroup;
 			children = (
 				DE01F7D02B65296D00EAFF8F /* IsoTutorialTests.swift */,
+				DE9254D42B80DF9D0037F961 /* MapTests.swift */,
 			);
 			path = IsoTutorialTests;
 			sourceTree = "<group>";
@@ -268,9 +280,12 @@
 			files = (
 				DE01F7C22B65296B00EAFF8F /* ContentView.swift in Sources */,
 				DE9254D12B80C07D0037F961 /* Entity.swift in Sources */,
+				DE9254D92B80E0F20037F961 /* Vector2D.swift in Sources */,
 				DE01F7EA2B652E6A00EAFF8F /* IsoConverter.swift in Sources */,
 				DE01F7EC2B652EA600EAFF8F /* GameScene.swift in Sources */,
+				DE9254D32B80DF500037F961 /* Map.swift in Sources */,
 				DE01F7C02B65296B00EAFF8F /* IsoTutorialApp.swift in Sources */,
+				DE9254D72B80E0B80037F961 /* Vector3D.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -278,6 +293,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DE9254D52B80DF9D0037F961 /* MapTests.swift in Sources */,
 				DE01F7D12B65296D00EAFF8F /* IsoTutorialTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -9,10 +9,10 @@ import Foundation
 
 final class Entity {
     let sprite: String
-    var position: Vector
+    var position: Vector3D
     var rotation = Rotation.defaultRotation
     
-    init(sprite: String, startPosition: Vector) {
+    init(sprite: String, startPosition: Vector3D) {
         self.sprite = sprite
         self.position = startPosition
     }
