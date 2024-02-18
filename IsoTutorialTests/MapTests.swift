@@ -102,6 +102,5 @@ final class MapTests: XCTestCase {
                 XCTAssertEqual(result.z, map[coord])
             }
         }
-        
     }
 }

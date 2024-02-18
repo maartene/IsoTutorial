@@ -76,8 +76,6 @@ final class GameScene: SKScene {
             sprite.run(getIdleAnimationForEntity(entity))
             rootNode.addChild(sprite)
         }
-        
-        
     }
     
     func rotateCW() {
