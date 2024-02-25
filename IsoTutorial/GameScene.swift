@@ -10,29 +10,29 @@ import SpriteKit
 
 final class GameScene: SKScene {
 
-    let heightmap = [
+    let map = Map(heightMap: [
         [1,1,1,1,1],
         [1,1,1,1,1],
         [1,1,2,2,1],
         [2,4,2,3,1],
         [1,1,1,1,1],
-    ]
+    ])
     
     var rotation = Rotation.defaultRotation
     let cameraNode = SKCameraNode()
     let rootNode = SKNode()
     
     let entities = [
-        Entity(sprite: "Knight", startPosition: Vector(x: 1, y: 1, z: 1)),
-        Entity(sprite: "Knight", startPosition: Vector(x: 3, y: 3, z: 3)),
-        Entity(sprite: "Rogue", startPosition: Vector(x: 4, y: 0, z: 1))
+        Entity(sprite: "Knight", startPosition: Vector3D(x: 1, y: 1, z: 1)),
+        Entity(sprite: "Knight", startPosition: Vector3D(x: 3, y: 3, z: 3)),
+        Entity(sprite: "Rogue", startPosition: Vector3D(x: 4, y: 0, z: 1))
     ]
     
     override func didMove(to view: SKView) {
         size = view.frame.size
         scaleMode = .aspectFill
         
-        let cameraScreenPosition = convertWorldToScreen(Vector(x: 2, y: 2))
+        let cameraScreenPosition = convertWorldToScreen(Vector3D(x: 2, y: 2))
         cameraNode.position = CGPoint(x: cameraScreenPosition.x, y: cameraScreenPosition.y)
         cameraNode.setScale(0.5)
         addChild(cameraNode)
@@ -44,7 +44,7 @@ final class GameScene: SKScene {
     }
     
     func redraw() {
-        let cameraScreenPosition = convertWorldToScreen(Vector(x: 2, y: 2), direction: rotation)
+        let cameraScreenPosition = convertWorldToScreen(Vector3D(x: 2, y: 2), direction: rotation)
         cameraNode.position = CGPoint(x: cameraScreenPosition.x, y: cameraScreenPosition.y)
         
         // cleanup old nodes
@@ -52,13 +52,13 @@ final class GameScene: SKScene {
             node.removeFromParent()
         }
         
-        for y in 0 ..< heightmap.count {
-            for x in 0 ..< heightmap[y].count {
-                let elevation = heightmap[y][x]
+        for y in 0 ..< map.rowCount {
+            for x in 0 ..< map.colCount {
+                let elevation = map[Vector2D(x: x, y: y)]
                 for z in 0 ..< elevation {
                     let sprite = SKSpriteNode(imageNamed: "Floor_Tile")
                     sprite.texture?.filteringMode = .nearest
-                    let position = Vector(x: x, y: y, z: z)
+                    let position = Vector3D(x: x, y: y, z: z)
                     let screenPosition = convertWorldToScreen(position, direction: rotation)
                     sprite.position = CGPoint(x: screenPosition.x, y: screenPosition.y)
                     sprite.zPosition = CGFloat(convertWorldToZPosition(position, direction: rotation))
@@ -76,8 +76,6 @@ final class GameScene: SKScene {
             sprite.run(getIdleAnimationForEntity(entity))
             rootNode.addChild(sprite)
         }
-        
-        
     }
     
     func rotateCW() {
@@ -102,10 +100,9 @@ final class GameScene: SKScene {
     
     func moveRandomEntityToRandomPosition() {
         let entity = entities.randomElement()!
-        let x = (0 ..< heightmap[0].count).randomElement()!
-        let y = (0 ..< heightmap.count).randomElement()!
-        let z = heightmap[y][x]
-        entity.position = Vector(x: x, y: y, z: z)
+        let x = (0 ..< map.colCount).randomElement()!
+        let y = (0 ..< map.rowCount).randomElement()!
+        entity.position = map.convertTo3D(Vector2D(x: x, y: y))
         redraw()
     }
     
