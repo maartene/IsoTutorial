@@ -103,4 +103,113 @@ final class MapTests: XCTestCase {
             }
         }
     }
+    
+    // MARK: Pathfinding
+    func test_createDijkstra_noHeightDifferences() {
+        let map = Map(heightMap: [
+            [1,1,1,1],
+            [1,1,1,1],
+            [1,1,1,1],
+            [1,1,1,1],
+        ])
+        
+        let dijkstra = map.dijkstra(target: .zero)
+        
+        let expectedResult = [
+          [0,1,2,3],
+          [1,2,3,4],
+          [2,3,4,5],
+          [3,4,5,6]
+        ]
+        
+        for y in 0 ..< map.rowCount {
+            for x in 0 ..< map.colCount {
+                XCTAssertEqual(dijkstra[Vector2D(x: x, y: y)], expectedResult[y][x])
+            }
+        }
+    }
+    
+    func test_createDijkstra_withHeightDifferences() {
+        let map = Map(heightMap: [
+            [1,1,1,1],
+            [1,2,2,1],
+            [1,1,3,1],
+            [1,1,1,1],
+        ])
+        
+        let dijkstra = map.dijkstra(target: .zero)
+        
+        let expectedResult = [
+          [0,1,2,3],
+          [1,3,4,4],
+          [2,3,6,5],
+          [3,4,5,6],
+        ]
+        
+        for y in 0 ..< map.rowCount {
+            for x in 0 ..< map.colCount {
+                XCTAssertEqual(dijkstra[Vector2D(x: x, y: y)], expectedResult[y][x])
+            }
+        }
+    }
+    
+    func test_createDijkstra_withHeightDifferences_startingElsewhere() {
+        let map = Map(heightMap: [
+            [1,1,1,1],
+            [1,2,2,1],
+            [1,1,3,1],
+            [1,1,1,1],
+        ])
+        
+        let dijkstra = map.dijkstra(target: Vector2D(x: 1, y: 2))
+        
+        let expectedResult = [
+            [3,4,5,6],
+            [2,2,3,5],
+            [1,0,3,4],
+            [2,1,2,3]
+        ]
+        
+        for y in 0 ..< map.rowCount {
+            for x in 0 ..< map.colCount {
+                XCTAssertEqual(dijkstra[Vector2D(x: x, y: y)], expectedResult[y][x])
+            }
+        }
+    }
+    
+    func test_withExampleMap() {
+        let map = Map(heightMap: Self.EXAMPLE_HEIGHTMAP)
+        
+        let dijkstra = map.dijkstra(target: .zero)
+        
+        let expectedResult = [
+            [0,1,2,3,4],
+            [1,4,5,6,5],
+            [2,5,7,8,6],
+            [3,5,6,7,7],
+            [4,5,6,7,8],
+            [5,6,7,8,9]
+        ]
+        
+        for y in 0 ..< map.rowCount {
+            for x in 0 ..< map.colCount {
+                XCTAssertEqual(dijkstra[Vector2D(x: x, y: y)], expectedResult[y][x])
+            }
+        }
+    }
+    
+    func test_dijkstra_performance() {
+        let heightmap = (0 ..< 100).map { _ in
+            (0 ..< 100).map { _ in Int.random(in: 1..<5) }
+        }
+        
+        let map = Map(heightMap: heightmap)
+        
+        var i = 0
+        measure {
+            print("test_dijkstra_performance - round \(i)")
+            _ = map.dijkstra(target: map.tiles.keys.randomElement()!)
+            i += 1
+        }
+    }
 }

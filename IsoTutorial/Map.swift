@@ -40,4 +40,44 @@ struct Map {
     func convertTo3D(_ coord: Vector2D) -> Vector3D {
         Vector3D(x: coord.x, y: coord.y, z: self[coord])
     }
+    
+    func getNeighboursFor(_ node: Vector2D) -> [Vector2D] {
+        node.neighbours.filter { tiles.keys.contains($0)
+        }
+    }
+    
+    func cost(from: Vector2D, to: Vector2D) -> Int {
+        abs(self[from] - self[to]) + 1
+    }
+    
+    func dijkstra(target: Vector2D) -> [Vector2D: Int] {
+        var unvisited = Set<Vector2D>()
+        var visited = Set<Vector2D>()
+        var dist = [Vector2D: Int]()
+        
+        unvisited.insert(target)
+        dist[target] = 0
+        var currentNode = target
+        while unvisited.isEmpty == false {
+            let neighbours = getNeighboursFor(currentNode)
+            for neighbour in neighbours {
+                if visited.contains(neighbour) == false {
+                    unvisited.insert(neighbour)
+                }
+                let alt = dist[currentNode]! + cost(from: currentNode, to: neighbour)
+                if alt < dist[neighbour, default: Int.max] {
+                    dist[neighbour] = alt
+                }
+            }
+            
+            unvisited.remove(currentNode)
+            visited.insert(currentNode)
+            
+            if let newNode = unvisited.min(by: { dist[$0, default: Int.max] < dist[$1, default: Int.max] }) {
+                currentNode = newNode
+            }
+        }
+        
+        return dist
+    }
 }

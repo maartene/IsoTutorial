@@ -22,6 +22,10 @@ final class GameScene: SKScene {
     let cameraNode = SKCameraNode()
     let rootNode = SKNode()
     
+    // just so we can show the Dijkstra map
+    var dijkstra = [Vector2D: Int]()
+    var selectedCoord: Vector2D?
+    
     let entities = [
         Entity(sprite: "Knight", startPosition: Vector3D(x: 1, y: 1, z: 1)),
         Entity(sprite: "Knight", startPosition: Vector3D(x: 3, y: 3, z: 3)),
@@ -52,6 +56,13 @@ final class GameScene: SKScene {
             node.removeFromParent()
         }
         
+        // create dijkstramap if a tile is selected, just to show it.
+        if let selectedCoord {
+            dijkstra = map.dijkstra(target: selectedCoord)
+        } else {
+            dijkstra.removeAll()
+        }
+        
         for y in 0 ..< map.rowCount {
             for x in 0 ..< map.colCount {
                 let elevation = map[Vector2D(x: x, y: y)]
@@ -62,6 +73,17 @@ final class GameScene: SKScene {
                     let screenPosition = convertWorldToScreen(position, direction: rotation)
                     sprite.position = CGPoint(x: screenPosition.x, y: screenPosition.y)
                     sprite.zPosition = CGFloat(convertWorldToZPosition(position, direction: rotation))
+                    
+                    // Just to show the Dijkstramap
+                    var color = SKColor.white
+                    if let distance = dijkstra[position.xy] {
+                        let hue = Double(distance) / 10.0
+                        color = SKColor(hue: hue, saturation: 1, brightness: 1, alpha: 1)
+                    }
+                    sprite.colorBlendFactor = 1.0
+                    sprite.color = color
+                    
+                    sprite.userData = ["coord": position] // associate the tile sprite with its coordinate
                     rootNode.addChild(sprite)
                 }
             }
@@ -122,5 +144,23 @@ final class GameScene: SKScene {
         
         let idleAnimation = SKAction.animate(with: frames, timePerFrame: 0.25)
         return SKAction.repeatForever(idleAnimation)
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        guard let touch = touches.first else {
+            return
+        }
+        
+        let scenePoint = convertPoint(fromView: touch.location(in: view))
+        guard let node = nodes(at: scenePoint).first else {
+            return
+        }
+        
+        guard let coord = node.userData?["coord"] as? Vector3D else {
+            return
+        }
+        
+        selectedCoord = coord.xy
+        redraw()
     }
 }
