@@ -10,6 +10,8 @@ import XCTest
 @testable import IsoTutorial
 
 final class MapTests: XCTestCase {
+    
+    // MARK: Fixtures
     static let EXAMPLE_HEIGHTMAP = [
         [1,1,1,1,1],
         [1,3,3,3,1],
@@ -48,6 +50,7 @@ final class MapTests: XCTestCase {
         Vector2D(x: EXAMPLE_HEIGHTMAP_COL_COUNT + 1, y: 1),
     ]
     
+    // MARK: Map basics
     func test_emptyMap_hasZeroWidthAndHeight() {
         let map = Map()
         XCTAssertEqual(map.colCount, 0)
