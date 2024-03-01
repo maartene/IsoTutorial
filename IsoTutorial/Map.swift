@@ -80,4 +80,24 @@ struct Map {
         
         return dist
     }
+    
+    func getPath(to coord: Vector2D, using dijkstraMap: [Vector2D: Int]) -> [Vector2D] {
+        var path = [coord]
+        
+        guard dijkstraMap.keys.contains(coord) else {
+            return []
+        }
+        
+        var current = coord
+
+        while dijkstraMap[current] != 0 {
+            let neighbours = current.neighbours
+            current = neighbours.min {
+                dijkstraMap[$0, default: Int.max] < dijkstraMap[$1, default: Int.max]
+            }!
+            path.append(current)
+        }
+        
+        return path.reversed()
+    }
 }

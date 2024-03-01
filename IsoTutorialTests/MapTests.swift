@@ -215,4 +215,29 @@ final class MapTests: XCTestCase {
             i += 1
         }
     }
+    
+    func test_getPath_inExampleMap() {
+        // get a path from (0,0) to (3,1)
+        let map = Map(heightMap: Self.EXAMPLE_HEIGHTMAP)
+        
+        // Create a Dijkstra Map with the starting coordinate as target.
+        let dijkstra = map.dijkstra(target: .zero)
+        
+        // Get the path from (0,0) to (3,1) using the Dijkstra Map.
+        let path = map.getPath(to: Vector2D(x: 3, y: 1), using: dijkstra)
+                
+        let expectedPath =
+        [(0,0),(1,0),(2,0),(3,0),(3,1)].map { Vector2D(x: $0.0, y: $0.1) }
+        
+        XCTAssertEqual(path,expectedPath)
+    }
+    
+    func test_getPath_returnsEmptyPath_ifTargetLocation_isNotOnMap() {
+        let map = Map(heightMap: Self.EXAMPLE_HEIGHTMAP)
+        let dijkstra = map.dijkstra(target: .zero)
+        
+        let path = map.getPath(to: Vector2D(x: 6, y: 9), using: dijkstra)
+
+        XCTAssertEqual(path,[])
+    }
 }
