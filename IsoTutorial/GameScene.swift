@@ -22,8 +22,8 @@ final class GameScene: SKScene {
     let cameraNode = SKCameraNode()
     let rootNode = SKNode()
     
-    // just so we can show the Dijkstra map
-    var dijkstra = [Vector2D: Int]()
+    // just so we can show the path
+    var path = [Vector2D]()
     var selectedCoord: Vector2D?
     
     let entities = [
@@ -58,15 +58,17 @@ final class GameScene: SKScene {
         
         // create dijkstramap if a tile is selected, just to show it.
         if let selectedCoord {
-            dijkstra = map.dijkstra(target: selectedCoord)
+            let dijkstra = map.dijkstra(target: Vector2D(x: 1, y: 1))
+            path = map.getPath(to: selectedCoord, using: dijkstra)
+            
         } else {
-            dijkstra.removeAll()
+            path.removeAll()
         }
         
         for y in 0 ..< map.rowCount {
             for x in 0 ..< map.colCount {
                 let elevation = map[Vector2D(x: x, y: y)]
-                for z in 0 ..< elevation {
+                for z in 0 ... elevation {
                     let sprite = SKSpriteNode(imageNamed: "Floor_Tile")
                     sprite.texture?.filteringMode = .nearest
                     let position = Vector3D(x: x, y: y, z: z)
@@ -76,9 +78,8 @@ final class GameScene: SKScene {
                     
                     // Just to show the Dijkstramap
                     var color = SKColor.white
-                    if let distance = dijkstra[position.xy] {
-                        let hue = Double(distance) / 10.0
-                        color = SKColor(hue: hue, saturation: 1, brightness: 1, alpha: 1)
+                    if path.contains(position.xy) && z == elevation {
+                        color = SKColor.blue
                     }
                     sprite.colorBlendFactor = 1.0
                     sprite.color = color
@@ -92,7 +93,7 @@ final class GameScene: SKScene {
         for entity in entities {
             let sprite = SKSpriteNode(imageNamed: getIdleAnimationFirstFrameNameForEntity(entity, referenceRotation: rotation))
             let entityScreenPosition = convertWorldToScreen(entity.position, direction: rotation)
-            sprite.anchorPoint = CGPoint(x: 0.5, y: 0.4)
+            sprite.anchorPoint = CGPoint(x: 0.5, y: 0.3)
             sprite.position = CGPoint(x: entityScreenPosition.x, y: entityScreenPosition.y)
             sprite.zPosition = CGFloat(convertWorldToZPosition(entity.position, direction: rotation))
             sprite.run(getIdleAnimationForEntity(entity))
@@ -152,15 +153,31 @@ final class GameScene: SKScene {
         }
         
         let scenePoint = convertPoint(fromView: touch.location(in: view))
-        guard let node = nodes(at: scenePoint).first else {
-            return
+        let nodeCoords = nodes(at: scenePoint)
+            .sorted(by: { ($0.position - scenePoint).sqrMagnitude < ($1.position - scenePoint).sqrMagnitude })
+            .compactMap { node -> Vector3D? in
+                guard let coord = node.userData?["coord"] as? Vector3D else {
+                    return nil
+                }
+                
+                return coord
+            }
+            .filter { $0 == map.convertTo3D($0.xy) }
+    
+        if let clickedTile = nodeCoords.first {
+            selectedCoord = clickedTile.xy
         }
         
-        guard let coord = node.userData?["coord"] as? Vector3D else {
-            return
-        }
-        
-        selectedCoord = coord.xy
         redraw()
+    }
+}
+
+extension CGPoint {
+    static func -(lhs: CGPoint, rhs: CGPoint) -> CGPoint {
+        CGPoint(x: lhs.x - rhs.x, y: lhs.y - rhs.y)
+    }
+    
+    var sqrMagnitude: Double {
+        x * x + y * y
     }
 }
