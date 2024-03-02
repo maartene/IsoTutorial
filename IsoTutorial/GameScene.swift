@@ -22,7 +22,7 @@ final class GameScene: SKScene {
     let cameraNode = SKCameraNode()
     let rootNode = SKNode()
     
-    // just so we can show the Dijkstra map
+    // just so we can show the path
     var path = [Vector2D]()
     var selectedCoord: Vector2D?
     
