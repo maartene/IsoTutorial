@@ -62,18 +62,22 @@ func rotateCoordinate(_ coord: Vector3D, direction: Rotation) -> Vector3D {
 }
 
 let spriteAnimationMap = [
+    "Knight": [
+        "Walk": "Walking_B"
+    ],
     "Rogue":
         [
-            "Idle": "2H_Melee_Idle"
+            "Idle": "2H_Melee_Idle",
+            "Walk": "Walking_C"
         ]
 ]
 
 func getIdleAnimationFirstFrameNameForEntity(_ entity: Entity, referenceRotation: Rotation = .defaultRotation) -> String {
-    getIdleAnimationNameForEntity(entity, referenceRotation: referenceRotation) + "_0"
+    getAnimationNameForEntity(entity, animation: "Idle", referenceRotation: referenceRotation) + "_0"
 }
 
-func getIdleAnimationNameForEntity(_ entity: Entity, referenceRotation: Rotation = .defaultRotation) -> String {
-    let animationName = spriteAnimationMap[entity.sprite]?["Idle"] ?? "Idle"
+func getAnimationNameForEntity(_ entity: Entity, animation: String, referenceRotation: Rotation = .defaultRotation) -> String {
+    let animationName = spriteAnimationMap[entity.sprite]?[animation] ?? "Idle"
     let viewRotation = entity.rotation.withReferenceRotation(referenceRotation)
     return "\(entity.sprite)_\(animationName)_\(viewRotation.rawValue)"
 }
