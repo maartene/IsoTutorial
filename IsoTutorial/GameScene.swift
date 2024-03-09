@@ -96,7 +96,7 @@ final class GameScene: SKScene {
             sprite.anchorPoint = CGPoint(x: 0.5, y: 0.3)
             sprite.position = CGPoint(x: entityScreenPosition.x, y: entityScreenPosition.y)
             sprite.zPosition = CGFloat(convertWorldToZPosition(entity.position, direction: rotation))
-            sprite.run(getIdleAnimationForEntity(entity))
+            sprite.run(getAnimationForEntity(entity, animation: "Walk"))
             rootNode.addChild(sprite)
         }
     }
@@ -129,8 +129,8 @@ final class GameScene: SKScene {
         redraw()
     }
     
-    func getIdleAnimationForEntity(_ entity: Entity) -> SKAction {
-        let animationName = getIdleAnimationNameForEntity(entity, referenceRotation: rotation)
+    func getAnimationForEntity(_ entity: Entity, animation: String) -> SKAction {
+        let animationName = getAnimationNameForEntity(entity, animation: animation, referenceRotation: rotation)
         let frames = [
             "\(animationName)_0",
             "\(animationName)_1",
@@ -143,8 +143,8 @@ final class GameScene: SKScene {
                 return frame
             }
         
-        let idleAnimation = SKAction.animate(with: frames, timePerFrame: 0.25)
-        return SKAction.repeatForever(idleAnimation)
+        let animation = SKAction.animate(with: frames, timePerFrame: 0.25)
+        return SKAction.repeatForever(animation)
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
