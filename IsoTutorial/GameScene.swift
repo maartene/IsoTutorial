@@ -163,9 +163,9 @@ final class GameScene: SKScene {
             let movementAction = SKAction.move(to: screenPosition, duration: duration)
             
             let zPosition = convertWorldToZPosition(map.convertTo3D(coord) + Vector3D(x: 0, y: 0, z: 2), direction: rotation)
-            let zPositionAction = SKAction.customAction(withDuration: duration, actionBlock: { node, time in
+            let zPositionAction = SKAction.customAction(withDuration: duration) { node, time in
                 node.zPosition = CGFloat(zPosition)
-            })
+            }
             
             movementActions.append(SKAction.group([animation, movementAction, zPositionAction]))
         }
