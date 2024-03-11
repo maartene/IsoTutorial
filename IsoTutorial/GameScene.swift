@@ -95,8 +95,13 @@ final class GameScene: SKScene {
             let entityScreenPosition = convertWorldToScreen(entity.position, direction: rotation)
             sprite.anchorPoint = CGPoint(x: 0.5, y: 0.3)
             sprite.position = CGPoint(x: entityScreenPosition.x, y: entityScreenPosition.y)
-            sprite.zPosition = CGFloat(convertWorldToZPosition(entity.position, direction: rotation))
-            sprite.run(getAnimationForEntity(entity, animation: "Walk"))
+            sprite.zPosition = CGFloat(convertWorldToZPosition(entity.position + Vector3D(x: 0, y: 0, z: 2), direction: rotation))
+            if path.isEmpty == false && entity === entities[0] {
+                sprite.run(createFollowPathAnimationForEntity(entity))
+            } else {
+                sprite.run(.repeatForever(getAnimationForEntity(entity, animation: "Idle")))
+            }
+            
             rootNode.addChild(sprite)
         }
     }
@@ -144,7 +149,28 @@ final class GameScene: SKScene {
             }
         
         let animation = SKAction.animate(with: frames, timePerFrame: 0.25)
-        return SKAction.repeatForever(animation)
+        return animation
+    }
+    
+    func createFollowPathAnimationForEntity(_ entity: Entity) -> SKAction {
+        var movementActions = [SKAction]()
+        let duration = 0.25
+        for coord in path {
+            let animation = getAnimationForEntity(entity, animation: "Walk")
+            
+            let screenCoord = convertWorldToScreen(map.convertTo3D(coord), direction: rotation)
+            let screenPosition = CGPoint(x: screenCoord.x, y: screenCoord.y)
+            let movementAction = SKAction.move(to: screenPosition, duration: duration)
+            
+            let zPosition = convertWorldToZPosition(map.convertTo3D(coord) + Vector3D(x: 0, y: 0, z: 2), direction: rotation)
+            let zPositionAction = SKAction.customAction(withDuration: duration) { node, time in
+                node.zPosition = CGFloat(zPosition)
+            }
+            
+            movementActions.append(SKAction.group([animation, movementAction, zPositionAction]))
+        }
+        
+        return SKAction.sequence(movementActions)
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
