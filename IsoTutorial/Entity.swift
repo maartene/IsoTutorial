@@ -16,4 +16,10 @@ final class Entity {
         self.sprite = sprite
         self.position = startPosition
     }
+    
+    func copy() -> Entity {
+        let copy = Entity(sprite: sprite, startPosition: position)
+        copy.rotation = rotation
+        return copy
+    }
 }

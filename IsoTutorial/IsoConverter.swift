@@ -7,33 +7,6 @@
 
 import Foundation
 
-enum Rotation: Int {
-    case degrees45 = 45
-    case degrees135 = 135
-    case degrees225 = 225
-    case degrees315 = 315
-    
-    static var defaultRotation: Rotation {
-        .degrees45
-    }
-    
-    var rotated90DegreesClockwise: Rotation {
-        let degrees = self.rawValue
-        let rotatedDegrees = (degrees + 360 - 90) % 360
-        return Rotation(rawValue: rotatedDegrees)!
-    }
-    
-    var rotated90DegreesCounterClockwise: Rotation {
-        let degrees = self.rawValue
-        let rotatedDegrees = (degrees + 90) % 360
-        return Rotation(rawValue: rotatedDegrees)!
-    }
-    
-    func withReferenceRotation(_ referenceRotation: Rotation) -> Rotation {
-        Rotation(rawValue: (rawValue + referenceRotation.rawValue - Rotation.defaultRotation.rawValue) % 360)!
-    }
-}
-
 func convertWorldToScreen(_ worldSpacePosition: Vector3D, direction: Rotation = .defaultRotation) -> Vector2D {
     let xOffset = Vector2D(x: 16, y: 8)
     let yOffset = Vector2D(x: -16, y: 8)
