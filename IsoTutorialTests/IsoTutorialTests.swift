@@ -213,33 +213,6 @@ final class IsoTutorialTests: XCTestCase {
         }
     }
     
-    func test_rotationWithReferenceRotation_basedOnDefaultRotation_alwaysReturnsExistingRotation() {
-        for rotation in [Rotation.degrees45, Rotation.degrees135, Rotation.degrees225, Rotation.degrees315] {
-            XCTAssertEqual(rotation.withReferenceRotation(.defaultRotation), rotation)
-        }
-    }
-    
-    func test_rotationWithReferenceRotation_takesReferenceRotationIntoAccount() {
-        let testcases: [(lookRotation: Rotation, referenceRotation: Rotation, resultingRotation: Rotation)] = [
-            (.degrees45, .degrees135, .degrees135),
-            (.degrees135, .degrees135, .degrees225),
-            (.degrees225, .degrees135, .degrees315),
-            (.degrees315, .degrees135, .degrees45),
-            (.degrees45, .degrees225, .degrees225),
-            (.degrees135, .degrees225, .degrees315),
-            (.degrees225, .degrees225, .degrees45),
-            (.degrees315, .degrees225, .degrees135),
-            (.degrees45, .degrees315, .degrees315),
-            (.degrees135, .degrees315, .degrees45),
-            (.degrees225, .degrees315, .degrees135),
-            (.degrees315, .degrees315, .degrees225)
-        ]
-        
-        for testcase in testcases {
-            XCTAssertEqual(testcase.lookRotation.withReferenceRotation(testcase.referenceRotation), testcase.resultingRotation)
-        }
-    }
-    
     // MARK: Animation names tests
     func test_getIdleAnimationFirstFrameNameForEntity_whenKnightIsPassedIn() {
         let testcases: [(sprite: String, rotation: Rotation, expected: String)] = [

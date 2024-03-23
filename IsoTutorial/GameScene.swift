@@ -148,15 +148,21 @@ final class GameScene: SKScene {
                 return frame
             }
         
-        let animation = SKAction.animate(with: frames, timePerFrame: 0.25)
+        let animation = SKAction.animate(with: frames, timePerFrame: 0.15)
         return animation
     }
     
     func createFollowPathAnimationForEntity(_ entity: Entity) -> SKAction {
         var movementActions = [SKAction]()
         let duration = 0.25
+        var lastCoord = entity.position.xy
+        let stuntDouble = entity.copy()
         for coord in path {
-            let animation = getAnimationForEntity(entity, animation: "Walk")
+            let newRotation = Rotation.fromLookDirection(coord - lastCoord) ?? stuntDouble.rotation
+            stuntDouble.rotation = newRotation
+            lastCoord = coord
+            
+            let animation = getAnimationForEntity(stuntDouble, animation: "Walk")
             
             let screenCoord = convertWorldToScreen(map.convertTo3D(coord), direction: rotation)
             let screenPosition = CGPoint(x: screenCoord.x, y: screenCoord.y)
