@@ -7,6 +7,7 @@
 
 import Foundation
 import XCTest
+import Combine
 @testable import IsoTutorial
 
 
@@ -64,45 +65,65 @@ final class ViewModelTests: XCTestCase {
     }
     
     // MARK: Combine tests
+    var cancellables = Set<AnyCancellable>()
+    var receivedTiles = [Vector3D?]()
+    var receivedEntities = [Entity?]()
+    
+    func registerForChanges(viewModel: ViewModel) {
+        viewModel.$selectedTile.sink { value in
+            self.receivedTiles.append(value)
+        }.store(in: &cancellables)
+        
+        viewModel.$selectedEntity.sink { value in
+            self.receivedEntities.append(value)
+        }.store(in: &cancellables)
+    }
+    
     func test_selectedTile_publishesChange_when_selectedTile_isChanged() {
         let viewModel = ViewModel(map: Map(), entities: [])
-        
+        registerForChanges(viewModel: viewModel)
+
         let randomCoords = (0 ..< 20).map { _ in Vector3D.random }
-                
-        var receivedValues = [Vector3D]()
-        
-        let sink = viewModel.$selectedTile.sink { value in
-            guard let value else {
-                return
-            }
-            
-            receivedValues.append(value)
-        }
         
         for randomCoord in randomCoords {
             viewModel.selectedTile = randomCoord
         }
         
-        XCTAssertEqual(receivedValues, randomCoords)
+        XCTAssertEqual(receivedTiles.compactMap({$0}), randomCoords)
+    }
+    
+    func test_selectedTile_publishesChange_whenSelectedTile_isSetToNil() throws {
+        let viewModel = ViewModel(map: Map(), entities: [])
+        registerForChanges(viewModel: viewModel)
+        
+        viewModel.selectedTile = .random
+        XCTAssertNotNil(try XCTUnwrap(receivedTiles.last))
+        
+        viewModel.selectedTile = nil
+        XCTAssertNil(try XCTUnwrap(receivedTiles.last))
     }
     
     func test_selectedEntity_publishesChange_when_selectedEntity_isChanged() {
         let entity = Entity(sprite: "Example Entity", startPosition: .random)
         
-        let viewModel = ViewModel(map: Map(), entities: [])
-        
-        var receivedValues = [Entity]()
-        
-        let sink = viewModel.$selectedEntity.sink { value in
-            guard let value else {
-                return
-            }
-            
-            receivedValues.append(value)
-        }
+        let viewModel = ViewModel(map: Map(), entities: [entity])
+        registerForChanges(viewModel: viewModel)
         
         viewModel.selectedEntity = entity
         
-        XCTAssertTrue(receivedValues.last === entity)
+        XCTAssertTrue(receivedEntities.compactMap({ $0 }).last === entity)
+    }
+    
+    func test_selectedEntity_publishesChange_when_selectedEntity_isSetToNil() throws {
+        let entity = Entity(sprite: "Example Entity", startPosition: .random)
+        
+        let viewModel = ViewModel(map: Map(), entities: [entity])
+        registerForChanges(viewModel: viewModel)
+
+        viewModel.selectedEntity = entity
+        XCTAssertNotNil(try XCTUnwrap(receivedEntities.last))
+        
+        viewModel.selectedEntity = nil
+        XCTAssertNil(try XCTUnwrap(receivedEntities.last))
     }
 }
