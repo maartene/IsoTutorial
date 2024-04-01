@@ -11,7 +11,7 @@ import XCTest
 
 final class ActionTests: XCTestCase {
     
-    
+    // MARK: MoveAction
     func test_moveAction_complete_setsPosition() {
         let entity = Entity(sprite: "Example", startPosition: .zero)
         let path = [

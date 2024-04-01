@@ -22,7 +22,7 @@ struct DummyAction: Action {
 }
 
 struct MoveAction: Action {
-    let owner: Entity?
+    weak var owner: Entity?
     let path: [Vector3D]
     
     func complete() {
