@@ -24,6 +24,8 @@
 		DE9254D52B80DF9D0037F961 /* MapTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE9254D42B80DF9D0037F961 /* MapTests.swift */; };
 		DE9254D72B80E0B80037F961 /* Vector3D.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE9254D62B80E0B80037F961 /* Vector3D.swift */; };
 		DE9254D92B80E0F20037F961 /* Vector2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE9254D82B80E0F20037F961 /* Vector2D.swift */; };
+		DECDAFD32BBAB8FC0087C4A6 /* ViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DECDAFD22BBAB8FC0087C4A6 /* ViewModelTests.swift */; };
+		DECDAFD52BBAC9900087C4A6 /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DECDAFD42BBAC9900087C4A6 /* ViewModel.swift */; };
 		DEEE103A2BAED4A200936DCA /* RotationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEEE10392BAED4A200936DCA /* RotationTests.swift */; };
 		DEEE103C2BAED4CF00936DCA /* Rotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEEE103B2BAED4CF00936DCA /* Rotation.swift */; };
 /* End PBXBuildFile section */
@@ -66,6 +68,8 @@
 		DE9254D42B80DF9D0037F961 /* MapTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapTests.swift; sourceTree = "<group>"; };
 		DE9254D62B80E0B80037F961 /* Vector3D.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vector3D.swift; sourceTree = "<group>"; };
 		DE9254D82B80E0F20037F961 /* Vector2D.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vector2D.swift; sourceTree = "<group>"; };
+		DECDAFD22BBAB8FC0087C4A6 /* ViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelTests.swift; sourceTree = "<group>"; };
+		DECDAFD42BBAC9900087C4A6 /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
 		DEEE10392BAED4A200936DCA /* RotationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RotationTests.swift; sourceTree = "<group>"; };
 		DEEE103B2BAED4CF00936DCA /* Rotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rotation.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -130,6 +134,7 @@
 				DE9254D82B80E0F20037F961 /* Vector2D.swift */,
 				DEEE103B2BAED4CF00936DCA /* Rotation.swift */,
 				DE57F5BD2BB80A8700657F52 /* Action.swift */,
+				DECDAFD42BBAC9900087C4A6 /* ViewModel.swift */,
 			);
 			path = IsoTutorial;
 			sourceTree = "<group>";
@@ -150,6 +155,7 @@
 				DE181E812BAED17A00981CED /* EntityTests.swift */,
 				DEEE10392BAED4A200936DCA /* RotationTests.swift */,
 				DE5B1EA72BB5BE78007986D4 /* ActionTests.swift */,
+				DECDAFD22BBAB8FC0087C4A6 /* ViewModelTests.swift */,
 			);
 			path = IsoTutorialTests;
 			sourceTree = "<group>";
@@ -296,6 +302,7 @@
 				DE01F7C22B65296B00EAFF8F /* ContentView.swift in Sources */,
 				DE9254D12B80C07D0037F961 /* Entity.swift in Sources */,
 				DE9254D92B80E0F20037F961 /* Vector2D.swift in Sources */,
+				DECDAFD52BBAC9900087C4A6 /* ViewModel.swift in Sources */,
 				DE57F5BE2BB80A8700657F52 /* Action.swift in Sources */,
 				DE01F7EA2B652E6A00EAFF8F /* IsoConverter.swift in Sources */,
 				DE01F7EC2B652EA600EAFF8F /* GameScene.swift in Sources */,
@@ -312,6 +319,7 @@
 			files = (
 				DE5B1EA82BB5BE78007986D4 /* ActionTests.swift in Sources */,
 				DE9254D52B80DF9D0037F961 /* MapTests.swift in Sources */,
+				DECDAFD32BBAB8FC0087C4A6 /* ViewModelTests.swift in Sources */,
 				DEEE103A2BAED4A200936DCA /* RotationTests.swift in Sources */,
 				DE181E822BAED17A00981CED /* EntityTests.swift in Sources */,
 				DE01F7D12B65296D00EAFF8F /* IsoTutorialTests.swift in Sources */,
