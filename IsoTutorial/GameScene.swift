@@ -143,8 +143,9 @@ final class GameScene: SKScene {
             movementActions.append(SKAction.group([animation, movementAction, zPositionAction]))
         }
         
-        let completeAction = SKAction.customAction(withDuration: 0.001) { _, _ in
+        let completeAction = SKAction.customAction(withDuration: 0.001) { [weak self] _, _ in
             entity.completeCurrentAction()
+            self?.redraw()
         }
         
         movementActions.append(completeAction)
