@@ -28,6 +28,10 @@ struct ContentView: View {
             SpriteView(scene: scene)
             VStack {
                 Spacer()
+                if let selectedTile = viewModel.selectedTile {
+                    Text("Selected tile: \(selectedTile)")
+                        .foregroundStyle(.white)
+                }
                 if let selectedEntity = viewModel.selectedEntity {
                     Text("Selected entity: \(selectedEntity.sprite)")
                         .foregroundStyle(.white)
