@@ -44,6 +44,10 @@ final class EntityTests: XCTestCase {
             func complete() {
                 block()
             }
+            
+            static func make(in map: Map, for entity: Entity, targetting: Vector3D) -> BlockAction? {
+                BlockAction(block: { })
+            }
         }
         
         let entity = Entity(sprite: "Entity", startPosition: .zero)
