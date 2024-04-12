@@ -184,7 +184,7 @@ final class ViewModelTests: XCTestCase {
         let target: Vector3D
     }
     
-    func test_clickTile_setsEntitiesCurrentAction_whenTargettingMode_isTile() throws {
+    func test_clickTile_setsCurrentAction_when_tile_isClicked() throws {
         let entity = Entity(sprite: "Test entity", startPosition: .zero)
         let viewModel = ViewModel(map: exampleMap, entities: [entity])
         viewModel.currentAction = DummyActionWithCoord(target: .zero)
