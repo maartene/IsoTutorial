@@ -68,6 +68,7 @@ final class ViewModelTests: XCTestCase {
     var cancellables = Set<AnyCancellable>()
     var receivedTiles = [Vector3D?]()
     var receivedEntities = [Entity?]()
+    var receivedActions = [Action?]()
     
     func registerForChanges(viewModel: ViewModel) {
         viewModel.$selectedTile.sink { value in
@@ -77,6 +78,11 @@ final class ViewModelTests: XCTestCase {
         viewModel.$selectedEntity.sink { value in
             self.receivedEntities.append(value)
         }.store(in: &cancellables)
+        
+        viewModel.$currentAction.sink { value in
+            self.receivedActions.append(value)
+        }.store(in: &cancellables)
+        
     }
     
     func test_selectedTile_publishesChange_when_selectedTile_isChanged() {
@@ -125,5 +131,103 @@ final class ViewModelTests: XCTestCase {
         
         viewModel.selectedEntity = nil
         XCTAssertNil(try XCTUnwrap(receivedEntities.last))
+    }
+    
+    func test_currentAction_publishesChange_when_currentAction_isChanged() {
+        let entity = Entity(sprite: "Example Entity", startPosition: .random)
+        
+        let viewModel = ViewModel(map: Map(), entities: [entity])
+        registerForChanges(viewModel: viewModel)
+        
+        viewModel.selectedEntity = entity
+        viewModel.currentAction = DummyAction()
+        
+        XCTAssertTrue(receivedActions.compactMap({ $0 }).last is DummyAction)
+    }
+    
+    func test_currentAction_publishesChange_when_currentAction_isSetToNil() throws {
+        let entity = Entity(sprite: "Example Entity", startPosition: .random)
+        
+        let viewModel = ViewModel(map: Map(), entities: [entity])
+        registerForChanges(viewModel: viewModel)
+        viewModel.selectedEntity = entity
+        
+        viewModel.currentAction = DummyAction()
+        XCTAssertNotNil(try XCTUnwrap(receivedActions.last))
+        
+        viewModel.currentAction = nil
+        XCTAssertNil(try XCTUnwrap(receivedActions.last))
+    }
+    
+    // MARK: Building up actions
+    func test_clickTile_doesNotChangeSelectedEntity_when_currentAction_isNotNil() {
+        let entities  = (0 ..< 10).map { _ in Entity(sprite: "\(UUID().uuidString)", startPosition: exampleMap.convertTo3D(exampleMap.tiles.keys.randomElement()!))
+        }
+        let viewModel = ViewModel(map: exampleMap, entities: entities)
+        
+        let randomEntity = viewModel.entities.randomElement()!
+        viewModel.selectedEntity = randomEntity
+        viewModel.currentAction = DummyAction()
+        
+        let coord = entities.filter { $0 !== randomEntity }.randomElement()!.position
+        viewModel.clickTile(coord)
+        
+        XCTAssertEqual(viewModel.selectedTile, coord)
+        XCTAssertTrue(viewModel.selectedEntity === randomEntity)
+    }
+    
+    struct DummyActionWithCoord: Action {
+        static func make(in map: Map, for entity: Entity, targetting: Vector3D) -> DummyActionWithCoord? {
+            DummyActionWithCoord(target: targetting)
+        }
+        
+        let target: Vector3D
+    }
+    
+    func test_clickTile_setsCurrentAction_when_tile_isClicked() throws {
+        let entity = Entity(sprite: "Test entity", startPosition: .zero)
+        let viewModel = ViewModel(map: exampleMap, entities: [entity])
+        viewModel.currentAction = DummyActionWithCoord(target: .zero)
+        viewModel.selectedEntity = entity
+        
+        let coord = Vector3D(x: 1, y: 2, z: 3)
+        viewModel.clickTile(coord)
+                
+        let currentAction = try XCTUnwrap(viewModel.currentAction)
+        XCTAssertEqual((currentAction as? DummyActionWithCoord)?.target, coord)
+    }
+    
+    func test_commitAction_sets_selectedEntities_currentAction() throws {
+        let entity = Entity(sprite: "Test entity", startPosition: .zero)
+        entity.currentAction = nil
+        let viewModel = ViewModel(map: exampleMap, entities: [entity])
+        viewModel.currentAction = DummyAction()
+        viewModel.selectedEntity = entity
+        
+        viewModel.commitAction()
+                
+        let currentAction = try XCTUnwrap(entity.currentAction)
+        XCTAssertTrue(currentAction is DummyAction)
+    }
+    
+    func test_commitAction_sets_currentAction_toNil() {
+        let entity = Entity(sprite: "Test entity", startPosition: .zero)
+        let viewModel = ViewModel(map: exampleMap, entities: [entity])
+        viewModel.currentAction = DummyAction()
+        viewModel.selectedEntity = entity
+        
+        viewModel.commitAction()
+                
+        XCTAssertNil(viewModel.currentAction)
+    }
+    
+    func test_commitAction_triggersRedraw() {
+        var counter = 0
+        let viewModel = ViewModel(map: exampleMap, entities: [])
+        viewModel.redraw = { counter += 1 }
+        
+        viewModel.commitAction()
+                
+        XCTAssertEqual(counter, 1)
     }
 }

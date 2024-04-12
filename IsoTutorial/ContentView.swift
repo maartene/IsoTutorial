@@ -27,6 +27,19 @@ struct ContentView: View {
         ZStack {
             SpriteView(scene: scene)
             VStack {
+                HStack {
+                    Spacer()
+                    if  viewModel.selectedEntity != nil {
+                        EntityView(viewModel: viewModel)
+                    }
+                }
+                if let currentAction = viewModel.currentAction {
+                    Button("Execute \(currentAction)") {
+                        print("Execute \(currentAction)")
+                        viewModel.commitAction()
+                    }
+                    .buttonStyle(BorderedProminentButtonStyle())
+                }
                 Spacer()
                 if let selectedTile = viewModel.selectedTile {
                     Text("Selected tile: \(selectedTile)")

@@ -29,6 +29,8 @@ final class GameScene: SKScene {
         addChild(rootNode)
         
         redraw()
+        
+        viewModel.redraw = redraw
     }
     
     func redraw() {
@@ -61,6 +63,8 @@ final class GameScene: SKScene {
                         color = SKColor.purple
                     } else if paths.contains(where: { $0.contains(position) }) {
                         color = SKColor.blue
+                    } else if viewModel.currentAction != nil {
+                        color = SKColor.systemPink
                     }
                     sprite.colorBlendFactor = 1.0
                     sprite.color = color
@@ -175,15 +179,7 @@ final class GameScene: SKScene {
         
         
         if let clickedTile = nodeCoords.first {
-            let selectedEntity = viewModel.selectedEntity
-            
             viewModel.clickTile(clickedTile)
-            
-            if let selectedEntity {
-                let dijkstra = map.dijkstra(target: selectedEntity.position.xy)
-                let path = map.getPath(to: clickedTile.xy, using: dijkstra).map { map.convertTo3D($0) }
-                selectedEntity.currentAction = MoveAction(owner: selectedEntity, path: path)
-            }
         }
         
         redraw()
