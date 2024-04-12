@@ -22,4 +22,4 @@ This project uses the following assets:
 
 ## License:
 
-- IsoTutorial © 2024 by thedreamweb.org is licensed under Attribution-ShareAlike 4.0 International
+- IsoTutorial © 2024 by thedreamweb.eu is licensed under Attribution-ShareAlike 4.0 International
