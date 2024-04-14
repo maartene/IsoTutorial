@@ -33,9 +33,8 @@ struct ContentView: View {
                         EntityView(viewModel: viewModel)
                     }
                 }
-                if let currentAction = viewModel.currentAction {
-                    Button("Execute \(currentAction)") {
-                        print("Execute \(currentAction)")
+                if let currentAction = viewModel.currentAction, currentAction.canComplete {
+                    Button("Execute \(currentAction.description)") {
                         viewModel.commitAction()
                     }
                     .buttonStyle(BorderedProminentButtonStyle())

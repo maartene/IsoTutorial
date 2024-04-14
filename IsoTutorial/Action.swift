@@ -8,6 +8,9 @@
 import Foundation
 
 protocol Action {
+    var description: String { get }
+    var canComplete: Bool { get }
+    
     func complete()
     
     static func make(in map: Map, for entity: Entity, targetting: Vector3D) -> Self?
@@ -18,7 +21,13 @@ extension Action {
         print("Completing action \(self)")
     }
     
+    var description: String {
+        "\(self)"
+    }
     
+    var canComplete: Bool {
+        true
+    }
 }
 
 struct DummyAction: Action {
@@ -46,5 +55,16 @@ struct MoveAction: Action {
             owner.position = path[path.count - 1]
             owner.rotation = Rotation.fromLookDirection(path[path.count - 1].xy - path[path.count - 2].xy) ?? owner.rotation
         }
+    }
+    
+    var description: String {
+        if let lastCoord = path.last {
+            return "Move to (\(lastCoord.x),\(lastCoord.y))"
+        }
+        return "Move to..."
+    }
+    
+    var canComplete: Bool {
+        path.isEmpty == false
     }
 }
