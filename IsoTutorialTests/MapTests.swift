@@ -280,4 +280,19 @@ final class MapTests: XCTestCase {
         XCTAssertEqual(path, expected)
         
     }
+    
+    func test_getPath_returnsEmptyPath_ifHeightDifferenceIsMoreThanMax() {
+        let map = Map(heightMap: [
+            [1,1,1,1],
+            [1,1,1,1],
+            [1,1,8,1],
+            [1,1,1,1],
+        ])
+        let dijkstra = map.dijkstra(target: .zero)
+        
+        let path = map.getPath(to: Vector2D(x: 2, y: 2), using: dijkstra, maxHeightDifference: 4)
+
+        XCTAssertEqual(path, [])
+        
+    }
 }

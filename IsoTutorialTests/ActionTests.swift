@@ -148,4 +148,30 @@ final class ActionTests: XCTestCase {
         
         XCTAssertEqual(moveAction.path, expected)
     }
+    
+    func test_moveAction_reachableTiles_takesMaximumHeightDifference_intoAccount() throws {
+        let entity = Entity(sprite: "Example Entity", startPosition: Vector3D(x: 1, y: 1, z: 1), maxHeightDifference: 1)
+        
+        let reachableTiles = MoveAction.reachableTiles(in: exampleMap, for: entity)
+        
+        let expectedReachableTiles = [
+            Vector3D(x: 0, y: 3, z: 1),
+            Vector3D(x: 0, y: 2, z: 1),
+            Vector3D(x: 2, y: 0, z: 1),
+            Vector3D(x: 0, y: 0, z: 1),
+            Vector3D(x: 3, y: 0, z: 1),
+            Vector3D(x: 1, y: 1, z: 1),
+            Vector3D(x: 1, y: 3, z: 1),
+            Vector3D(x: 0, y: 1, z: 1),
+            Vector3D(x: 1, y: 2, z: 1),
+            Vector3D(x: 1, y: 4, z: 1),
+            Vector3D(x: 1, y: 0, z: 1)
+        ]
+                
+        XCTAssertEqual(reachableTiles.count, expectedReachableTiles.count)
+        
+        for reachableTile in reachableTiles {
+            XCTAssertTrue(expectedReachableTiles.contains(reachableTile))
+        }
+    }
 }

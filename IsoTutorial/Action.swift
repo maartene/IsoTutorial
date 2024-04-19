@@ -47,7 +47,7 @@ struct MoveAction: Action {
     let path: [Vector3D]
     
     static func reachableTiles(in map: Map, for entity: Entity) -> [Vector3D] {
-        let dijkstra = map.dijkstra(target: entity.position.xy)
+        let dijkstra = map.dijkstra(target: entity.position.xy, maxHeightDifference: entity.maxHeightDifference)
         
         // FIXME: hard coded max range value
         return dijkstra.filter { $0.value <= entity.range }

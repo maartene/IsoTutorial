@@ -102,11 +102,16 @@ struct Map {
 
         while dijkstraMap[current] != 0 {
             let neighbours = current.neighbours
-            current = neighbours
+            let newCurrent = neighbours
                 .filter { enterable(from: $0, to: current, maxHeightDifference: maxHeightDifference) }
                 .min {
                 dijkstraMap[$0, default: Int.max] < dijkstraMap[$1, default: Int.max]
-            }!
+                } 
+            if let newCurrent {
+                current = newCurrent
+            } else {
+                return []
+            }
             path.append(current)
         }
         
