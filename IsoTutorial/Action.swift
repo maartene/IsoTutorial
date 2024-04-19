@@ -14,6 +14,7 @@ protocol Action {
     func complete()
     
     static func make(in map: Map, for entity: Entity, targetting: Vector3D) -> Self?
+    static func reachableTiles(in map: Map, for entity: Entity) -> [Vector3D]
 }
 
 extension Action {
@@ -28,6 +29,11 @@ extension Action {
     var canComplete: Bool {
         true
     }
+    
+    /// Default implementation for reachableTiles that returns all coordinates in the `map`.
+    static func reachableTiles(in map: Map, for entity: Entity) -> [Vector3D] {
+        map.tiles.keys.map { map.convertTo3D($0) }
+    }
 }
 
 struct DummyAction: Action {
@@ -40,7 +46,19 @@ struct MoveAction: Action {
     weak var owner: Entity?
     let path: [Vector3D]
     
+    static func reachableTiles(in map: Map, for entity: Entity) -> [Vector3D] {
+        let dijkstra = map.dijkstra(target: entity.position.xy)
+        
+        // FIXME: hard coded max range value
+        return dijkstra.filter { $0.value <= 3 }
+            .map { map.convertTo3D($0.key) }
+    }
+    
     static func make(in map: Map, for entity: Entity, targetting: Vector3D) -> MoveAction? {
+        guard reachableTiles(in: map, for: entity).contains(targetting)  else {
+            return nil
+        }
+        
         let dijkstra = map.dijkstra(target: entity.position.xy)
         let path = map.getPath(to: targetting.xy, using: dijkstra).map { map.convertTo3D($0) }
         return MoveAction(owner: entity, path: path)
