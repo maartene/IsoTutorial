@@ -50,7 +50,7 @@ struct MoveAction: Action {
         let dijkstra = map.dijkstra(target: entity.position.xy)
         
         // FIXME: hard coded max range value
-        return dijkstra.filter { $0.value <= 3 }
+        return dijkstra.filter { $0.value <= entity.range }
             .map { map.convertTo3D($0.key) }
     }
     
@@ -59,8 +59,8 @@ struct MoveAction: Action {
             return nil
         }
         
-        let dijkstra = map.dijkstra(target: entity.position.xy)
-        let path = map.getPath(to: targetting.xy, using: dijkstra).map { map.convertTo3D($0) }
+        let dijkstra = map.dijkstra(target: entity.position.xy, maxHeightDifference: entity.maxHeightDifference)
+        let path = map.getPath(to: targetting.xy, using: dijkstra, maxHeightDifference: entity.maxHeightDifference).map { map.convertTo3D($0) }
         return MoveAction(owner: entity, path: path)
     }
     

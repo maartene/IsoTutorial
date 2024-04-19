@@ -129,4 +129,23 @@ final class ActionTests: XCTestCase {
         
         XCTAssertNil(maybeMoveAction)
     }
+    
+    func test_moveAction_make_takesMaximumHeightDifference_intoAccount() throws {
+        let entity = Entity(sprite: "Example Entity", startPosition: .zero, range: Int.max, maxHeightDifference: 1)
+        
+        let moveAction = try XCTUnwrap(MoveAction.make(in: exampleMap, for: entity, targetting: Vector3D(x: 2, y: 1, z: 3)))
+        
+        let expected = [
+            Vector3D(x: 0, y: 0, z: 1),
+            Vector3D(x: 0, y: 1, z: 1),
+            Vector3D(x: 0, y: 2, z: 1),
+            Vector3D(x: 0, y: 3, z: 1),
+            Vector3D(x: 1, y: 3, z: 1),
+            Vector3D(x: 2, y: 3, z: 2),
+            Vector3D(x: 2, y: 2, z: 3),
+            Vector3D(x: 2, y: 1, z: 3)
+        ]
+        
+        XCTAssertEqual(moveAction.path, expected)
+    }
 }
