@@ -33,7 +33,7 @@ final class ViewModel: ObservableObject {
         if let currentAction = currentAction {
             if let selectedTile, let selectedEntity {
                 let action = type(of: currentAction)
-                    .make(in: map, for: selectedEntity, targetting: selectedTile)
+                    .make(in: map, for: selectedEntity, targetting: selectedTile, allEntities: entities)
                 self.currentAction = action
             }
         } else {
