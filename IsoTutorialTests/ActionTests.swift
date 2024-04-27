@@ -129,4 +129,70 @@ final class ActionTests: XCTestCase {
         
         XCTAssertNil(maybeMoveAction)
     }
+    
+    func test_moveAction_reachableTiles_returns_lessTilesWithinRange_for_entity_withShorterRange() {
+        let shortRangeEntity = Entity(sprite: "Short Range Entity", startPosition: Vector3D(x: 2, y: 2, z: 1), range: 2)
+        let longRangeEntity = Entity(sprite: "Long Range Entity", startPosition: Vector3D(x: 2, y: 2, z: 1), range: 3)
+        
+        let map = Map(heightMap: [
+          [1,1,1,1,1],
+          [1,1,1,1,1],
+          [1,1,1,1,1],
+          [1,1,1,1,1],
+          [1,1,1,1,1],
+        ])
+        
+        XCTAssertLessThan(
+            MoveAction.reachableTiles(in: map, for: shortRangeEntity).count,
+            MoveAction.reachableTiles(in: map, for: longRangeEntity).count
+        )
+    }
+    
+    func test_moveAction_reachableTiles_takesMaximumHeightDifference_intoAccount() throws {
+        let entity = Entity(sprite: "Example Entity", startPosition: Vector3D(x: 0, y: 0, z: 1), range: Int.max, maxHeightDifference: 1)
+        
+        let reachableTiles = MoveAction.reachableTiles(in: Map(heightMap: [
+            [1,1,1],
+            [1,3,1],
+            [1,1,1],
+        ]), for: entity)
+        
+        let expectedReachableTiles = [
+            Vector3D(x: 0, y: 0, z: 1),
+            Vector3D(x: 1, y: 0, z: 1),
+            Vector3D(x: 2, y: 0, z: 1),
+            Vector3D(x: 0, y: 1, z: 1),
+            Vector3D(x: 2, y: 1, z: 1),
+            Vector3D(x: 0, y: 2, z: 1),
+            Vector3D(x: 1, y: 2, z: 1),
+            Vector3D(x: 2, y: 2, z: 1),
+        ]
+                
+        XCTAssertEqual(reachableTiles.count, expectedReachableTiles.count)
+        
+        for reachableTile in reachableTiles {
+            XCTAssertTrue(expectedReachableTiles.contains(reachableTile))
+        }
+    }
+    
+    func test_moveAction_make_takesMaximumHeightDifference_intoAccount() throws {
+        let entity = Entity(sprite: "Example Entity", startPosition: .zero, range: Int.max, maxHeightDifference: 1)
+    
+        let moveAction = try XCTUnwrap(MoveAction.make(in: exampleMap, for: entity, targetting: Vector3D(x: 2, y: 1, z: 3)))
+        
+        let expected = [
+            Vector3D(x: 0, y: 0, z: 1),
+            Vector3D(x: 0, y: 1, z: 1),
+            Vector3D(x: 0, y: 2, z: 1),
+            Vector3D(x: 0, y: 3, z: 1),
+            Vector3D(x: 1, y: 3, z: 1),
+            Vector3D(x: 2, y: 3, z: 2),
+            Vector3D(x: 2, y: 2, z: 3),
+            Vector3D(x: 2, y: 1, z: 3)
+        ]
+        
+        XCTAssertEqual(moveAction.path, expected)
+    }
+    
+    
 }

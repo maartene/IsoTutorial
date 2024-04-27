@@ -16,9 +16,9 @@ struct ContentView: View {
         [2,4,2,3,1],
         [1,1,1,1,1],
     ]), entities: [
-        Entity(sprite: "Knight", startPosition: Vector3D(x: 1, y: 1, z: 1)),
-        Entity(sprite: "Knight", startPosition: Vector3D(x: 3, y: 3, z: 3)),
-        Entity(sprite: "Rogue", startPosition: Vector3D(x: 4, y: 0, z: 1))
+        Entity(sprite: "Knight", startPosition: Vector3D(x: 1, y: 1, z: 1), maxHeightDifference: 1),
+        Entity(sprite: "Knight", startPosition: Vector3D(x: 3, y: 3, z: 3), maxHeightDifference: 1),
+        Entity(sprite: "Rogue", startPosition: Vector3D(x: 4, y: 0, z: 1), range: 4)
     ])
     
     let scene = GameScene()
