@@ -203,7 +203,7 @@ final class ActionTests: XCTestCase {
         XCTAssertFalse(reachableTiles.contains(otherEntity.position))
     }
     
-    func test_moveAction_make_returnsEmptyArray_forOccupiedTile() {
+    func test_moveAction_make_returnsNil_forOccupiedTile() {
         let entity = Entity(sprite: "Example Entity", startPosition: .zero)
         let otherEntity = Entity(sprite: "I'm in the way", startPosition: Vector3D(x: 1, y: 1, z: 1))
         
