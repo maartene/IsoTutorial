@@ -15,7 +15,7 @@ final class Entity {
     let range: Int
     let maxHeightDifference: Int
     
-    init(sprite: String, startPosition: Vector3D, range: Int = 3, maxHeightDifference: Int = Int.max) {
+    init(sprite: String, startPosition: Vector3D, range: Int = Int.max, maxHeightDifference: Int = Int.max) {
         self.sprite = sprite
         self.position = startPosition
         self.range = range

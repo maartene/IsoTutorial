@@ -45,7 +45,7 @@ final class EntityTests: XCTestCase {
                 block()
             }
             
-            static func make(in map: Map, for entity: Entity, targetting: Vector3D) -> BlockAction? {
+            static func make(in map: Map, for entity: Entity, targetting: Vector3D, allEntities: [Entity] = []) -> BlockAction? {
                 BlockAction(block: { })
             }
         }

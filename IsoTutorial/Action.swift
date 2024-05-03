@@ -13,8 +13,8 @@ protocol Action {
     
     func complete()
     
-    static func make(in map: Map, for entity: Entity, targetting: Vector3D) -> Self?
-    static func reachableTiles(in map: Map, for entity: Entity) -> [Vector3D]
+    static func make(in map: Map, for entity: Entity, targetting: Vector3D, allEntities: [Entity]) -> Self?
+    static func reachableTiles(in map: Map, for entity: Entity, allEntities: [Entity]) -> [Vector3D]
 }
 
 extension Action {
@@ -31,13 +31,13 @@ extension Action {
     }
     
     /// Default implementation for reachableTiles that returns all coordinates in the `map`.
-    static func reachableTiles(in map: Map, for entity: Entity) -> [Vector3D] {
+    static func reachableTiles(in map: Map, for entity: Entity, allEntities: [Entity] = []) -> [Vector3D] {
         map.tiles.keys.map { map.convertTo3D($0) }
     }
 }
 
 struct DummyAction: Action {
-    static func make(in map: Map, for entity: Entity, targetting: Vector3D) -> DummyAction? {
+    static func make(in map: Map, for entity: Entity, targetting: Vector3D, allEntities: [Entity] = []) -> DummyAction? {
         DummyAction()
     }
 }
@@ -46,16 +46,17 @@ struct MoveAction: Action {
     weak var owner: Entity?
     let path: [Vector3D]
     
-    static func reachableTiles(in map: Map, for entity: Entity) -> [Vector3D] {
+    static func reachableTiles(in map: Map, for entity: Entity, allEntities: [Entity] = []) -> [Vector3D] {
         let dijkstra = map.dijkstra(target: entity.position.xy, maxHeightDifference: entity.maxHeightDifference)
+        let occupiedTiles = allEntities.map { $0.position.xy }
         
-        // FIXME: hard coded max range value
         return dijkstra.filter { $0.value <= entity.range }
+            .filter { occupiedTiles.contains($0.key) == false }
             .map { map.convertTo3D($0.key) }
     }
     
-    static func make(in map: Map, for entity: Entity, targetting: Vector3D) -> MoveAction? {
-        guard reachableTiles(in: map, for: entity).contains(targetting)  else {
+    static func make(in map: Map, for entity: Entity, targetting: Vector3D, allEntities: [Entity] = []) -> MoveAction? {
+        guard reachableTiles(in: map, for: entity, allEntities: allEntities).contains(targetting)  else {
             return nil
         }
         

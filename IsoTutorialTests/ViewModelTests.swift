@@ -177,7 +177,7 @@ final class ViewModelTests: XCTestCase {
     }
     
     struct DummyActionWithCoord: Action {
-        static func make(in map: Map, for entity: Entity, targetting: Vector3D) -> DummyActionWithCoord? {
+        static func make(in map: Map, for entity: Entity, targetting: Vector3D, allEntities: [Entity] = []) -> DummyActionWithCoord? {
             DummyActionWithCoord(target: targetting)
         }
         
