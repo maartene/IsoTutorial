@@ -211,4 +211,65 @@ final class ActionTests: XCTestCase {
         
         XCTAssertNil(maybeMoveAction)
     }
+    
+    // MARK: MeleeAttackAction
+    func test_meleeAttackAction_complete_lowersHPOfTarget() {
+        let entity = Entity(sprite: "Example Entity", startPosition: .zero)
+        let originalHP = entity.currentHP
+        let attackAction = MeleeAttackAction(target: entity)
+        
+        attackAction.complete()
+        
+        XCTAssertLessThan(entity.currentHP, originalHP)
+    }
+    
+    func test_meleeAttackAction_make_setsTarget_toEntity_atPosition() throws {
+        let entity = Entity(sprite: "Example Entity", startPosition: Vector3D(x: 0, y: 0, z: 1))
+        
+        let target = Entity(sprite: "Target Entity", startPosition: Vector3D(x: 0, y: 1, z: 1))
+
+        let meleeAttackAction = try XCTUnwrap(MeleeAttackAction.make(in: exampleMap, for: entity, targetting: target.position, allEntities: [entity, target]))
+        
+        let targetInAction = try XCTUnwrap(meleeAttackAction.target)
+        
+        XCTAssertTrue(targetInAction === target)
+    }
+    
+    func test_meleeAttackAction_make_returnsNil_whenPositionWithoutEntity_isPassedIn() {
+        let entity = Entity(sprite: "Example Entity", startPosition: Vector3D(x: 0, y: 0, z: 1))
+        
+        let target = Entity(sprite: "Target Entity", startPosition: Vector3D(x: 0, y: 1, z: 1))
+
+        let maybeMeleeAttackAction = MeleeAttackAction.make(in: exampleMap, for: entity, targetting: Vector3D(x: 1, y: 0, z: 1), allEntities: [entity, target])
+        
+        XCTAssertNil(maybeMeleeAttackAction)
+    }
+    
+    func test_meleeAttackAction_make_returnsNil_whenPositionOutOfRange_isPassedIn() {
+        let entity = Entity(sprite: "Example Entity", startPosition: Vector3D(x: 0, y: 0, z: 1))
+        
+        let target = Entity(sprite: "Target Entity", startPosition: Vector3D(x: 0, y: 2, z: 1))
+        
+        let maybeMeleeAttackAction = MeleeAttackAction.make(in: exampleMap, for: entity, targetting: target.position, allEntities: [entity, target])
+        
+        XCTAssertNil(maybeMeleeAttackAction)
+    }
+    
+    func test_meleeAttackAction_canComplete_returnsFalse_whenTargetIsNil() {
+        let meleeAttackAction = MeleeAttackAction(target: nil)
+        XCTAssertFalse(meleeAttackAction.canComplete)
+    }
+    
+    func test_meleeAttackAction_canComplete_returnsTrue_whenTargetIsNotNil() {
+        let target = Entity(sprite: "Target", startPosition: .zero)
+        let meleeAttackAction = MeleeAttackAction(target: target)
+        XCTAssertTrue(meleeAttackAction.canComplete)
+    }
+    
+    func test_meleeAttackAction_description() {
+        let target = Entity(sprite: "Target", startPosition: .zero)
+        
+        let meleeAttackAction = MeleeAttackAction(target: target)
+        XCTAssertEqual(meleeAttackAction.description, "Attack Target")
+    }
 }

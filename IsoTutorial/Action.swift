@@ -42,6 +42,7 @@ struct DummyAction: Action {
     }
 }
 
+// MARK: MoveAction
 struct MoveAction: Action {
     weak var owner: Entity?
     let path: [Vector3D]
@@ -85,5 +86,39 @@ struct MoveAction: Action {
     
     var canComplete: Bool {
         path.isEmpty == false
+    }
+}
+
+// MARK: MeleeAttackAction
+struct MeleeAttackAction: Action {
+    var target: Entity?
+    
+    static func reachableTiles(in map: Map, for entity: Entity, allEntities: [Entity]) -> [Vector3D] {
+        entity.position.xy.neighbours.map { map.convertTo3D($0) }
+    }
+    
+    static func make(in map: Map, for entity: Entity, targetting: Vector3D, allEntities: [Entity]) -> MeleeAttackAction? {
+        
+        guard reachableTiles(in: map, for: entity, allEntities: allEntities).contains(targetting) else {
+            return nil
+        }
+        
+        guard let targetEntity = allEntities.first(where: { $0.position == targetting }) else {
+            return nil
+        }
+        
+        return MeleeAttackAction(target: targetEntity)
+    }
+    
+    func complete() {
+        target?.currentHP -= 3
+    }
+    
+    var canComplete: Bool {
+        target != nil
+    }
+    
+    var description: String {
+        "Attack \(target?.sprite ?? "Nothing")"
     }
 }
