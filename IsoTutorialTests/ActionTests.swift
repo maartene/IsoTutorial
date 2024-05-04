@@ -225,19 +225,16 @@ final class ActionTests: XCTestCase {
     
     func test_meleeAttackAction_make_setsTarget_toEntity_atPosition() throws {
         let entity = Entity(sprite: "Example Entity", startPosition: Vector3D(x: 0, y: 0, z: 1))
-        
         let target = Entity(sprite: "Target Entity", startPosition: Vector3D(x: 0, y: 1, z: 1))
 
         let meleeAttackAction = try XCTUnwrap(MeleeAttackAction.make(in: exampleMap, for: entity, targetting: target.position, allEntities: [entity, target]))
         
         let targetInAction = try XCTUnwrap(meleeAttackAction.target)
-        
         XCTAssertTrue(targetInAction === target)
     }
     
     func test_meleeAttackAction_make_returnsNil_whenPositionWithoutEntity_isPassedIn() {
         let entity = Entity(sprite: "Example Entity", startPosition: Vector3D(x: 0, y: 0, z: 1))
-        
         let target = Entity(sprite: "Target Entity", startPosition: Vector3D(x: 0, y: 1, z: 1))
 
         let maybeMeleeAttackAction = MeleeAttackAction.make(in: exampleMap, for: entity, targetting: Vector3D(x: 1, y: 0, z: 1), allEntities: [entity, target])
@@ -247,7 +244,6 @@ final class ActionTests: XCTestCase {
     
     func test_meleeAttackAction_make_returnsNil_whenPositionOutOfRange_isPassedIn() {
         let entity = Entity(sprite: "Example Entity", startPosition: Vector3D(x: 0, y: 0, z: 1))
-        
         let target = Entity(sprite: "Target Entity", startPosition: Vector3D(x: 0, y: 2, z: 1))
         
         let maybeMeleeAttackAction = MeleeAttackAction.make(in: exampleMap, for: entity, targetting: target.position, allEntities: [entity, target])
