@@ -14,6 +14,7 @@ final class Entity {
     var currentAction: Action?
     let range: Int
     let maxHeightDifference: Int
+    var currentHP = 10
     
     init(sprite: String, startPosition: Vector3D, range: Int = Int.max, maxHeightDifference: Int = Int.max) {
         self.sprite = sprite
@@ -25,6 +26,8 @@ final class Entity {
     func copy() -> Entity {
         let copy = Entity(sprite: sprite, startPosition: position)
         copy.rotation = rotation
+        copy.currentAction = currentAction
+        copy.currentHP = currentHP
         return copy
     }
     

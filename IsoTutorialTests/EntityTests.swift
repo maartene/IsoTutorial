@@ -20,12 +20,16 @@ final class EntityTests: XCTestCase {
     func test_copy_returnsAnInstanceWithSamePropertiesAsOriginal() {
         let entity = Entity(sprite: UUID().uuidString, startPosition: Vector3D.random)
         entity.rotation = .degrees225
+        entity.currentAction = DummyAction()
+        entity.currentHP -= 1
         
         let copy = entity.copy()
         
         XCTAssertEqual(copy.sprite, entity.sprite)
         XCTAssertEqual(copy.position, entity.position)
         XCTAssertEqual(copy.rotation, entity.rotation)
+        XCTAssertEqual(copy.currentAction?.description, entity.currentAction?.description)
+        XCTAssertEqual(copy.currentHP, entity.currentHP)
     }
     
     // MARK: Complete Actions
