@@ -21,7 +21,7 @@ struct EntityView: View {
                 .foregroundColor(.white)
             Text("\(entity.currentAction?.description ?? "Idle")")
                 .foregroundColor(.red)
-            Text("HP: ###/###")
+            Text("HP: \(entity.currentHP)/###")
                 .font(.subheadline)
                 .foregroundColor(.red)
             Text("MP: ###/###")
