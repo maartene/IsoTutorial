@@ -122,3 +122,10 @@ struct MeleeAttackAction: Action {
         "Attack \(target?.sprite ?? "Nothing")"
     }
 }
+
+// MARK: TakeDamageAction
+struct TakeDamageAction: Action {
+    static func make(in map: Map, for entity: Entity, targetting: Vector3D, allEntities: [Entity]) -> TakeDamageAction? {
+        TakeDamageAction()
+    }
+}

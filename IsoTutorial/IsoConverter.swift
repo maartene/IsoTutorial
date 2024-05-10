@@ -36,12 +36,15 @@ func rotateCoordinate(_ coord: Vector3D, direction: Rotation) -> Vector3D {
 
 let spriteAnimationMap = [
     "Knight": [
-        "Walk": "Walking_B"
+        "Walk": "Walking_B",
+        "MeleeAttack": "2H_Melee_Attack_Chop",
+        "TakeDamage": "Hit_A"
     ],
     "Rogue":
         [
             "Idle": "2H_Melee_Idle",
-            "Walk": "Walking_C"
+            "Walk": "Walking_C",
+            "TakeDamage": "Hit_B"
         ]
 ]
 
