@@ -132,7 +132,7 @@ final class GameScene: SKScene {
         case is TakeDamageAction.Type:
             return createTakeDamageAnimationForEntity(entity)
         default:
-            print("Not implemented action type. Returning fallback animation (complete only).")
+            print("Not implemented action type \(currentAction). Returning fallback animation (complete only).")
             return createCompleteActionForEntity(entity)
         }
     }
