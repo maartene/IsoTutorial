@@ -193,12 +193,9 @@ final class GameScene: SKScene {
         stuntDouble.rotation = newRotation
     
         let attackAnimation = getAnimationForEntity(stuntDouble, animation: "MeleeAttack")
-        let hitAction = SKAction.customAction(withDuration: 0.001) { _, _ in
-            target.currentAction = TakeDamageAction()
-        }
         let completeAction = createCompleteActionForEntity(entity)
         
-        return SKAction.sequence([attackAnimation, hitAction, completeAction])
+        return SKAction.sequence([attackAnimation, completeAction])
     }
     
     func createTakeDamageAnimationForEntity(_ entity: Entity) -> SKAction? {
