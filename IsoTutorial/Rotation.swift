@@ -33,18 +33,38 @@ enum Rotation: Int {
         Rotation(rawValue: (rawValue + referenceRotation.rawValue - Rotation.defaultRotation.rawValue) % 360)!
     }
     
+    var toVector2D: Vector2D {
+        switch self {
+            
+        case .degrees45:
+            return Vector2D(x: 1, y: 0)
+        case .degrees135:
+            return Vector2D(x: 0, y: 1)
+        case .degrees225:
+            return Vector2D(x: -1, y: 0)
+        case .degrees315:
+            return Vector2D(x: 0, y: -1)
+        }
+    }
+    
     static func fromLookDirection(_ direction: Vector2D) -> Rotation? {
-        switch direction {
-        case Vector2D(x: 1, y: 0):
-            return .degrees45
-        case Vector2D(x: 0, y: 1):
-            return .degrees135
-        case Vector2D(x: -1, y: 0):
-            return .degrees225
-        case Vector2D(x: 0, y: -1):
-            return .degrees315
-        default:
+        
+        guard direction.length > 0 else {
             return nil
         }
+        
+        let rotationsAndDotProducts = [
+            Rotation.degrees45,
+            Rotation.degrees135,
+            Rotation.degrees225,
+            Rotation.degrees315,
+        ].map {
+            let dotProduct = Vector2D.dotNormalized($0.toVector2D, direction)
+            return (rotation: $0, dotProduct: dotProduct)
+        }
+        
+        return rotationsAndDotProducts.max {
+            $0.dotProduct < $1.dotProduct
+        }?.rotation
     }
 }

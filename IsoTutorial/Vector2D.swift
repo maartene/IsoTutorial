@@ -36,6 +36,17 @@ struct Vector2D {
         ]
     }
     
+    var length: Double {
+        sqrt(Double(x * x + y * y))
+    }
+    
+    static func dotNormalized(_ lhs: Vector2D, _ rhs: Vector2D) -> Double {
+        let lhsLength = lhs.length
+        let rhsLength = rhs.length
+        let xDotPart = (Double(lhs.x) / lhsLength) * (Double(rhs.x) / rhsLength)
+        let yDotPart = (Double(lhs.y) / lhsLength) * (Double(rhs.y) / rhsLength)
+        return xDotPart + yDotPart
+    }
 }
 
 extension Vector2D: Hashable { }
