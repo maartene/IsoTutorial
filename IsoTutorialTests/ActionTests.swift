@@ -268,4 +268,15 @@ final class ActionTests: XCTestCase {
         let meleeAttackAction = MeleeAttackAction(target: target)
         XCTAssertEqual(meleeAttackAction.description, "Attack Target")
     }
+    
+    func test_meleeAttackAction_afterCompletion_targetAndAttacker_faceEachother() {
+        let attacker = Entity(sprite: "Attacking Entity", startPosition: Vector3D(x: 0, y: 0, z: 1))
+        let target = Entity(sprite: "Target Entity", startPosition: Vector3D(x: 0, y: 1, z: 1))
+
+        let meleeAttackAction = MeleeAttackAction(owner: attacker, target: target)
+        meleeAttackAction.complete()
+        
+        XCTAssertEqual(attacker.rotation, .degrees135)
+        XCTAssertEqual(target.rotation, .degrees315)
+    }
 }

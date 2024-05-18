@@ -35,4 +35,10 @@ final class Entity {
         currentAction?.complete()
         currentAction = nil
     }
+    
+    func takeDamage(_ amount: Int) {
+        currentHP -= amount
+        
+        currentAction = TakeDamageAction()
+    }
 }

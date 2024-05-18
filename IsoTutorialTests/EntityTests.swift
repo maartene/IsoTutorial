@@ -60,4 +60,24 @@ final class EntityTests: XCTestCase {
         entity.completeCurrentAction()
         XCTAssertEqual(count, 1)
     }
+    
+    // MARK: TakeDamage
+    func test_takeDamage_lowersHP() {
+        let entity = Entity(sprite: "Entity", startPosition: .zero)
+        let originalHP = entity.currentHP
+        
+        entity.takeDamage(3)
+        
+        XCTAssertEqual(entity.currentHP, originalHP - 3)
+    }
+    
+    func test_takeDamage_setsCurrentAction_toTakeDamage() throws {
+        let entity = Entity(sprite: "Entity", startPosition: .zero)
+        
+        entity.takeDamage(3)
+        
+        let currentAction = try XCTUnwrap(entity.currentAction)
+        
+        XCTAssertTrue(currentAction is TakeDamageAction)
+    }
 }
