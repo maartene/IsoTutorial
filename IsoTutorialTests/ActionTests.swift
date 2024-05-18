@@ -276,8 +276,6 @@ final class ActionTests: XCTestCase {
         let meleeAttackAction = MeleeAttackAction(owner: attacker, target: target)
         meleeAttackAction.complete()
         
-        print(attacker.rotation, target.rotation)
-        
         XCTAssertEqual(attacker.rotation, .degrees135)
         XCTAssertEqual(target.rotation, .degrees315)
     }
