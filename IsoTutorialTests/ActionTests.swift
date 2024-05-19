@@ -212,71 +212,94 @@ final class ActionTests: XCTestCase {
         XCTAssertNil(maybeMoveAction)
     }
     
-    // MARK: MeleeAttackAction
-    func test_meleeAttackAction_complete_lowersHPOfTarget() {
+    // MARK: (Melee)AttackAction
+    func test_attackAction_complete_lowersHPOfTarget() {
         let entity = Entity(sprite: "Example Entity", startPosition: .zero)
         let originalHP = entity.currentHP
-        let attackAction = MeleeAttackAction(target: entity)
+        let attackAction = AttackAction(target: entity)
         
         attackAction.complete()
         
         XCTAssertLessThan(entity.currentHP, originalHP)
     }
     
-    func test_meleeAttackAction_make_setsTarget_toEntity_atPosition() throws {
+    func test_attackAction_make_setsTarget_toEntity_atPosition() throws {
         let entity = Entity(sprite: "Example Entity", startPosition: Vector3D(x: 0, y: 0, z: 1))
         let target = Entity(sprite: "Target Entity", startPosition: Vector3D(x: 0, y: 1, z: 1))
 
-        let meleeAttackAction = try XCTUnwrap(MeleeAttackAction.make(in: exampleMap, for: entity, targetting: target.position, allEntities: [entity, target]))
+        let attackAction = try XCTUnwrap(AttackAction.make(in: exampleMap, for: entity, targetting: target.position, allEntities: [entity, target]))
         
-        let targetInAction = try XCTUnwrap(meleeAttackAction.target)
+        let targetInAction = try XCTUnwrap(attackAction.target)
         XCTAssertTrue(targetInAction === target)
     }
     
-    func test_meleeAttackAction_make_returnsNil_whenPositionWithoutEntity_isPassedIn() {
+    func test_attackAction_make_returnsNil_whenPositionWithoutEntity_isPassedIn() {
         let entity = Entity(sprite: "Example Entity", startPosition: Vector3D(x: 0, y: 0, z: 1))
         let target = Entity(sprite: "Target Entity", startPosition: Vector3D(x: 0, y: 1, z: 1))
 
-        let maybeMeleeAttackAction = MeleeAttackAction.make(in: exampleMap, for: entity, targetting: Vector3D(x: 1, y: 0, z: 1), allEntities: [entity, target])
+        let maybeAttackAction = AttackAction.make(in: exampleMap, for: entity, targetting: Vector3D(x: 1, y: 0, z: 1), allEntities: [entity, target])
         
-        XCTAssertNil(maybeMeleeAttackAction)
+        XCTAssertNil(maybeAttackAction)
     }
     
-    func test_meleeAttackAction_make_returnsNil_whenPositionOutOfRange_isPassedIn() {
+    func test_attackAction_make_returnsNil_whenPositionOutOfRange_isPassedIn() {
         let entity = Entity(sprite: "Example Entity", startPosition: Vector3D(x: 0, y: 0, z: 1))
         let target = Entity(sprite: "Target Entity", startPosition: Vector3D(x: 0, y: 2, z: 1))
         
-        let maybeMeleeAttackAction = MeleeAttackAction.make(in: exampleMap, for: entity, targetting: target.position, allEntities: [entity, target])
+        let maybeAttackAction = AttackAction.make(in: exampleMap, for: entity, targetting: target.position, allEntities: [entity, target])
         
-        XCTAssertNil(maybeMeleeAttackAction)
+        XCTAssertNil(maybeAttackAction)
     }
     
-    func test_meleeAttackAction_canComplete_returnsFalse_whenTargetIsNil() {
-        let meleeAttackAction = MeleeAttackAction(target: nil)
-        XCTAssertFalse(meleeAttackAction.canComplete)
+    func test_attackAction_canComplete_returnsFalse_whenTargetIsNil() {
+        let attackAction = AttackAction(target: nil)
+        XCTAssertFalse(attackAction.canComplete)
     }
     
-    func test_meleeAttackAction_canComplete_returnsTrue_whenTargetIsNotNil() {
+    func test_attackAction_canComplete_returnsTrue_whenTargetIsNotNil() {
         let target = Entity(sprite: "Target", startPosition: .zero)
-        let meleeAttackAction = MeleeAttackAction(target: target)
-        XCTAssertTrue(meleeAttackAction.canComplete)
+        let attackAction = AttackAction(target: target)
+        XCTAssertTrue(attackAction.canComplete)
     }
     
-    func test_meleeAttackAction_description() {
+    func test_attackAction_description() {
         let target = Entity(sprite: "Target", startPosition: .zero)
         
-        let meleeAttackAction = MeleeAttackAction(target: target)
-        XCTAssertEqual(meleeAttackAction.description, "Attack Target")
+        let attackAction = AttackAction(target: target)
+        XCTAssertEqual(attackAction.description, "Attack Target")
     }
     
-    func test_meleeAttackAction_afterCompletion_targetAndAttacker_faceEachother() {
+    func test_attackAction_afterCompletion_targetAndAttacker_faceEachother() {
         let attacker = Entity(sprite: "Attacking Entity", startPosition: Vector3D(x: 0, y: 0, z: 1))
         let target = Entity(sprite: "Target Entity", startPosition: Vector3D(x: 0, y: 1, z: 1))
 
-        let meleeAttackAction = MeleeAttackAction(owner: attacker, target: target)
-        meleeAttackAction.complete()
+        let attackAction = AttackAction(owner: attacker, target: target)
+        attackAction.complete()
         
         XCTAssertEqual(attacker.rotation, .degrees135)
         XCTAssertEqual(target.rotation, .degrees315)
     }
+    
+    // MARK: Ranged attacks
+    func test_attackAction_make_doesNotReturnNil_whenWithinRangedAttackRange() {
+        let attacker = Entity(sprite: "Attacking Entity", startPosition: Vector3D(x: 0, y: 0, z: 1), attackRange: 3)
+        let target = Entity(sprite: "Target Entity", startPosition: Vector3D(x: 0, y: 3, z: 1))
+        
+        let maybeAttackAction = AttackAction.make(in: exampleMap, for: attacker, targetting: target.position, allEntities: [attacker, target])
+        
+        XCTAssertNotNil(maybeAttackAction)
+    }
+    
+    func test_attackAction_afterCompletion_ofRangedAttack_attackerAndTarget_faceEachother() {
+        let attacker = Entity(sprite: "Attacking Entity", startPosition: Vector3D(x: 0, y: 0, z: 1), attackRange: 3)
+        let target = Entity(sprite: "Target Entity", startPosition: Vector3D(x: 0, y: 3, z: 1))
+        
+        let attackAction = AttackAction(owner: attacker, target: target)
+        
+        attackAction.complete()
+        
+        XCTAssertEqual(attacker.rotation, .degrees135)
+        XCTAssertEqual(target.rotation, .degrees315)
+    }
+    
 }

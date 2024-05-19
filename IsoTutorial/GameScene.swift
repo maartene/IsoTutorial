@@ -127,7 +127,7 @@ final class GameScene: SKScene {
         switch type(of: currentAction) {
         case is MoveAction.Type:
             return createFollowPathAnimationForEntity(entity)
-        case is MeleeAttackAction.Type:
+        case is AttackAction.Type:
             return createMeleeAttackAnimationForEntity(entity)
         case is TakeDamageAction.Type:
             return createTakeDamageAnimationForEntity(entity)
@@ -180,7 +180,7 @@ final class GameScene: SKScene {
     }
     
     func createMeleeAttackAnimationForEntity(_ entity: Entity) -> SKAction? {
-        guard let meleeAttackAction = entity.currentAction as? MeleeAttackAction else {
+        guard let meleeAttackAction = entity.currentAction as? AttackAction else {
             return nil
         }
         

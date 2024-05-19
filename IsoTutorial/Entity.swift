@@ -15,12 +15,14 @@ final class Entity {
     let range: Int
     let maxHeightDifference: Int
     var currentHP = 10
+    let attackRange: Int
     
-    init(sprite: String, startPosition: Vector3D, range: Int = Int.max, maxHeightDifference: Int = Int.max) {
+    init(sprite: String, startPosition: Vector3D, range: Int = Int.max, maxHeightDifference: Int = Int.max, attackRange: Int = 1) {
         self.sprite = sprite
         self.position = startPosition
         self.range = range
         self.maxHeightDifference = maxHeightDifference
+        self.attackRange = attackRange
     }
     
     func copy() -> Entity {
