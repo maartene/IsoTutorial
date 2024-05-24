@@ -128,7 +128,11 @@ final class GameScene: SKScene {
         case is MoveAction.Type:
             return createFollowPathAnimationForEntity(entity)
         case is AttackAction.Type:
-            return createMeleeAttackAnimationForEntity(entity)
+            if entity.attackRange == 1 {
+                return createMeleeAttackAnimationForEntity(entity)
+            } else {
+                return createRangedAttackAnimationForEntity(entity)
+            }
         case is TakeDamageAction.Type:
             return createTakeDamageAnimationForEntity(entity)
         default:
@@ -193,6 +197,25 @@ final class GameScene: SKScene {
         stuntDouble.rotation = newRotation
     
         let attackAnimation = getAnimationForEntity(stuntDouble, animation: "MeleeAttack")
+        let completeAction = createCompleteActionForEntity(entity)
+        
+        return SKAction.sequence([attackAnimation, completeAction])
+    }
+    
+    func createRangedAttackAnimationForEntity(_ entity: Entity) -> SKAction? {
+        guard let rangedAttackAction = entity.currentAction as? AttackAction else {
+            return nil
+        }
+        
+        guard let target = rangedAttackAction.target else {
+            return nil
+        }
+        
+        let stuntDouble = entity.copy()
+        let newRotation = Rotation.fromLookDirection(target.position.xy - entity.position.xy) ?? stuntDouble.rotation
+        stuntDouble.rotation = newRotation
+    
+        let attackAnimation = getAnimationForEntity(stuntDouble, animation: "RangedAttack")
         let completeAction = createCompleteActionForEntity(entity)
         
         return SKAction.sequence([attackAnimation, completeAction])
