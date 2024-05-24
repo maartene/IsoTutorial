@@ -81,10 +81,15 @@ final class GameScene: SKScene {
             sprite.anchorPoint = CGPoint(x: 0.5, y: 0.3)
             sprite.position = CGPoint(x: entityScreenPosition.x, y: entityScreenPosition.y)
             sprite.zPosition = CGFloat(convertWorldToZPosition(entity.position + Vector3D(x: 0, y: 0, z: 2), direction: rotation))
-            if let animation = createAnimationForEntity(entity) {
+            let animationAndFx = createAnimationForEntity(entity)
+            if let animation = createAnimationForEntity(entity).action {
                     sprite.run(animation)
             } else {
                 sprite.run(.repeatForever(getAnimationForEntity(entity, animation: "Idle")))
+            }
+            
+            for fx in animationAndFx.fx {
+                addChild(fx)
             }
             
             rootNode.addChild(sprite)
@@ -101,6 +106,7 @@ final class GameScene: SKScene {
         redraw()
     }
     
+    // MARK: Animations
     func getAnimationForEntity(_ entity: Entity, animation: String) -> SKAction {
         let animationName = getAnimationNameForEntity(entity, animation: animation, referenceRotation: rotation)
         let frames = [
@@ -119,25 +125,25 @@ final class GameScene: SKScene {
         return animation
     }
     
-    func createAnimationForEntity(_ entity: Entity) -> SKAction? {
+    func createAnimationForEntity(_ entity: Entity) -> (action: SKAction?, fx: [SKNode]) {
         guard let currentAction = entity.currentAction else {
-            return nil
+            return (nil, [])
         }
         
         switch type(of: currentAction) {
         case is MoveAction.Type:
-            return createFollowPathAnimationForEntity(entity)
+            return (createFollowPathAnimationForEntity(entity), [])
         case is AttackAction.Type:
             if entity.attackRange == 1 {
-                return createMeleeAttackAnimationForEntity(entity)
+                return (createMeleeAttackAnimationForEntity(entity), [])
             } else {
                 return createRangedAttackAnimationForEntity(entity)
             }
         case is TakeDamageAction.Type:
-            return createTakeDamageAnimationForEntity(entity)
+            return (createTakeDamageAnimationForEntity(entity), [])
         default:
             print("Not implemented action type \(currentAction). Returning fallback animation (complete only).")
-            return createCompleteActionForEntity(entity)
+            return (createCompleteActionForEntity(entity), [])
         }
     }
     
@@ -202,13 +208,13 @@ final class GameScene: SKScene {
         return SKAction.sequence([attackAnimation, completeAction])
     }
     
-    func createRangedAttackAnimationForEntity(_ entity: Entity) -> SKAction? {
+    func createRangedAttackAnimationForEntity(_ entity: Entity) -> (action: SKAction?, fx: [SKNode]) {
         guard let rangedAttackAction = entity.currentAction as? AttackAction else {
-            return nil
+            return (nil, [])
         }
         
         guard let target = rangedAttackAction.target else {
-            return nil
+            return (nil, [])
         }
         
         let stuntDouble = entity.copy()
@@ -217,8 +223,26 @@ final class GameScene: SKScene {
     
         let attackAnimation = getAnimationForEntity(stuntDouble, animation: "RangedAttack")
         let completeAction = createCompleteActionForEntity(entity)
+        let sequence = SKAction.sequence([attackAnimation, completeAction])
         
-        return SKAction.sequence([attackAnimation, completeAction])
+        let targetScreenPosition = convertWorldToScreen(target.position + Vector3D(x: 0, y: 0, z: 2), direction: rotation)
+        let targetScreenZPosition = convertWorldToZPosition(target.position + Vector3D(x: 0, y: 0, z: 2), direction: rotation)
+        
+        // fx
+        let projectile = SKShapeNode(circleOfRadius: 2)
+        projectile.fillColor = .systemGray
+        projectile.strokeColor = .systemGray6
+        let projectileScreenPosition = convertWorldToScreen(entity.position + Vector3D(x: 0, y: 0, z: 2), direction: rotation)
+        let projectileZScreenPosition = max(targetScreenZPosition, convertWorldToZPosition(entity.position + Vector3D(x: 0, y: 0, z: 2), direction: rotation))
+        projectile.position = CGPoint(x: projectileScreenPosition.x, y: projectileScreenPosition.y)
+        projectile.zPosition = CGFloat(projectileZScreenPosition)
+        
+        
+        let projectileMoveAction = SKAction.move(to: CGPoint(x: targetScreenPosition.x, y: targetScreenPosition.y), duration: 0.25)
+        let projectileAction = SKAction.sequence([.hide(), .wait(forDuration: attackAnimation.duration), .unhide(), projectileMoveAction, .removeFromParent()])
+        projectile.run(projectileAction)
+        
+        return (sequence, [projectile])
     }
     
     func createTakeDamageAnimationForEntity(_ entity: Entity) -> SKAction? {
@@ -229,6 +253,7 @@ final class GameScene: SKScene {
         return SKAction.sequence([animation, completeAction])
     }
     
+    // MARK: Interaction
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         let map = viewModel.map
         
