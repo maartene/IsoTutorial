@@ -16,7 +16,7 @@ struct EntityView: View {
     
     var body: some View {
         VStack {
-            Text("\(entity.sprite)")
+            Text("\(entity.sprite) (\(entity.team))")
                 .font(.headline)
                 .foregroundColor(.white)
             Text("\(entity.currentAction?.description ?? "Idle")")
