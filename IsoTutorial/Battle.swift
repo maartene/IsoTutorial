@@ -32,7 +32,7 @@ final class Battle {
         entities.first { $0.hasActed == false }?.team ?? ""
     }
     
-    func checkNextTurn() {
+    private func checkNextTurn() {
         if _entities.filter({ $0.hasActed == false }).count == 0 {
             for entity in _entities {
                 entity.hasActed = false
