@@ -98,6 +98,8 @@ final class GameScene: SKScene {
             
             rootNode.addChild(sprite)
         }
+        
+        viewModel.redrawCount += 1
     }
     
     func rotateCW() {
@@ -136,7 +138,7 @@ final class GameScene: SKScene {
         }
         
         redraw()
-    }
+    }    
 }
 
 extension CGPoint {

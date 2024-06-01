@@ -16,10 +16,12 @@ struct ContentView: View {
         [2,4,2,3,1],
         [1,1,1,1,1],
     ]), entities: [
-        Entity(sprite: "Knight", startPosition: Vector3D(x: 1, y: 1, z: 1), range: 3, maxHeightDifference: 1),
-        Entity(sprite: "Knight", startPosition: Vector3D(x: 3, y: 3, z: 3), range: 3, maxHeightDifference: 1),
-        Entity(sprite: "Rogue", startPosition: Vector3D(x: 4, y: 0, z: 1), range: 4, attackRange: 3)
+        Entity(sprite: "Knight", startPosition: Vector3D(x: 1, y: 1, z: 1), range: 3, maxHeightDifference: 1, team: "AI"),
+        Entity(sprite: "Knight", startPosition: Vector3D(x: 3, y: 3, z: 3), range: 3, maxHeightDifference: 1, team: "AI"),
+        Entity(sprite: "Rogue", startPosition: Vector3D(x: 4, y: 0, z: 1), range: 4, attackRange: 3, team: "Player")
     ])
+    
+    @State var updateCount = 0
     
     let scene = GameScene()
     
@@ -27,6 +29,16 @@ struct ContentView: View {
         ZStack {
             SpriteView(scene: scene)
             VStack {
+                Text("Current team: \(viewModel.battle.activeTeam)")
+                    .foregroundStyle(.white)
+                if viewModel.battle.activeTeam != "Player" {
+                    Button("Let enemies act") {
+                        for entity in viewModel.entities.filter({ $0.team != "Player" }) {
+                            entity.currentAction = DummyAction()
+                        }
+                        viewModel.redraw?()
+                    }.buttonStyle(BorderedProminentButtonStyle())
+                }
                 HStack {
                     Spacer()
                     if  viewModel.selectedEntity != nil {
@@ -66,6 +78,7 @@ struct ContentView: View {
         }
             
     }
+    
 }
 
 #Preview {

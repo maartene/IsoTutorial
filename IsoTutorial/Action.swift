@@ -10,6 +10,7 @@ import Foundation
 protocol Action {
     var description: String { get }
     var canComplete: Bool { get }
+    var endsTurn: Bool { get }
     
     func complete()
     
@@ -33,6 +34,10 @@ extension Action {
     /// Default implementation for reachableTiles that returns all coordinates in the `map`.
     static func reachableTiles(in map: Map, for entity: Entity, allEntities: [Entity] = []) -> [Vector3D] {
         map.tiles.keys.map { map.convertTo3D($0) }
+    }
+    
+    var endsTurn: Bool {
+        true
     }
 }
 
@@ -141,4 +146,6 @@ struct TakeDamageAction: Action {
     static func make(in map: Map, for entity: Entity, targetting: Vector3D, allEntities: [Entity]) -> TakeDamageAction? {
         TakeDamageAction()
     }
+    
+    let endsTurn = false
 }

@@ -20,6 +20,8 @@
 		DE57F5BE2BB80A8700657F52 /* Action.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE57F5BD2BB80A8700657F52 /* Action.swift */; };
 		DE5B1EA82BB5BE78007986D4 /* ActionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE5B1EA72BB5BE78007986D4 /* ActionTests.swift */; };
 		DE805EC72C0B03E700EFF435 /* GameScene+Animation.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE805EC62C0B03E700EFF435 /* GameScene+Animation.swift */; };
+		DE805EC92C0B3F3800EFF435 /* BattleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE805EC82C0B3F3800EFF435 /* BattleTests.swift */; };
+		DE805ECB2C0B3FCE00EFF435 /* Battle.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE805ECA2C0B3FCE00EFF435 /* Battle.swift */; };
 		DE9254D12B80C07D0037F961 /* Entity.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE9254D02B80C07D0037F961 /* Entity.swift */; };
 		DE9254D32B80DF500037F961 /* Map.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE9254D22B80DF500037F961 /* Map.swift */; };
 		DE9254D52B80DF9D0037F961 /* MapTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE9254D42B80DF9D0037F961 /* MapTests.swift */; };
@@ -66,6 +68,8 @@
 		DE57F5BD2BB80A8700657F52 /* Action.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Action.swift; sourceTree = "<group>"; };
 		DE5B1EA72BB5BE78007986D4 /* ActionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionTests.swift; sourceTree = "<group>"; };
 		DE805EC62C0B03E700EFF435 /* GameScene+Animation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GameScene+Animation.swift"; sourceTree = "<group>"; };
+		DE805EC82C0B3F3800EFF435 /* BattleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattleTests.swift; sourceTree = "<group>"; };
+		DE805ECA2C0B3FCE00EFF435 /* Battle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Battle.swift; sourceTree = "<group>"; };
 		DE9254D02B80C07D0037F961 /* Entity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Entity.swift; sourceTree = "<group>"; };
 		DE9254D22B80DF500037F961 /* Map.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Map.swift; sourceTree = "<group>"; };
 		DE9254D42B80DF9D0037F961 /* MapTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapTests.swift; sourceTree = "<group>"; };
@@ -141,6 +145,7 @@
 				DE01F7BF2B65296B00EAFF8F /* IsoTutorialApp.swift */,
 				DE01F7C32B65296D00EAFF8F /* Assets.xcassets */,
 				DE01F7C52B65296D00EAFF8F /* Preview Content */,
+				DE805ECA2C0B3FCE00EFF435 /* Battle.swift */,
 			);
 			path = IsoTutorial;
 			sourceTree = "<group>";
@@ -162,6 +167,7 @@
 				DEEE10392BAED4A200936DCA /* RotationTests.swift */,
 				DE5B1EA72BB5BE78007986D4 /* ActionTests.swift */,
 				DECDAFD22BBAB8FC0087C4A6 /* ViewModelTests.swift */,
+				DE805EC82C0B3F3800EFF435 /* BattleTests.swift */,
 			);
 			path = IsoTutorialTests;
 			sourceTree = "<group>";
@@ -306,6 +312,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DE01F7C22B65296B00EAFF8F /* ContentView.swift in Sources */,
+				DE805ECB2C0B3FCE00EFF435 /* Battle.swift in Sources */,
 				DE9254D12B80C07D0037F961 /* Entity.swift in Sources */,
 				DE9254D92B80E0F20037F961 /* Vector2D.swift in Sources */,
 				DECDAFD52BBAC9900087C4A6 /* ViewModel.swift in Sources */,
@@ -329,6 +336,7 @@
 				DE9254D52B80DF9D0037F961 /* MapTests.swift in Sources */,
 				DECDAFD32BBAB8FC0087C4A6 /* ViewModelTests.swift in Sources */,
 				DEEE103A2BAED4A200936DCA /* RotationTests.swift in Sources */,
+				DE805EC92C0B3F3800EFF435 /* BattleTests.swift in Sources */,
 				DE181E822BAED17A00981CED /* EntityTests.swift in Sources */,
 				DE01F7D12B65296D00EAFF8F /* IsoTutorialTests.swift in Sources */,
 			);

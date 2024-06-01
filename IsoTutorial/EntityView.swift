@@ -27,8 +27,9 @@ struct EntityView: View {
             Text("MP: ###/###")
                 .font(.subheadline)
                 .foregroundColor(.blue)
-            
-            if viewModel.currentAction == nil {
+            Text("hasActed: \(entity.hasActed)") .foregroundColor(.white)
+            if viewModel.currentAction == nil && entity.hasActed == false && entity.team
+                == "Player" && viewModel.battle.activeTeam == "Player" {
                 HStack {
                     Button("Move") {
                         viewModel.currentAction = MoveAction(owner: entity, path: [])
