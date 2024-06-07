@@ -12,14 +12,18 @@ final class ViewModel: ObservableObject {
     @Published var selectedTile: Vector3D?
     @Published var selectedEntity: Entity?
     @Published var currentAction: Action?
+    @Published var redrawCount = 0
     
     let map: Map
-    let entities: [Entity]
+    var entities: [Entity] {
+        battle.entities
+    }
+    let battle: Battle
     var redraw: (() -> Void)?
     
     init(map: Map, entities: [Entity]) {
         self.map = map
-        self.entities = entities
+        self.battle = Battle(entities: entities)
     }
     
     func clickTile(_ tile: Vector3D) {

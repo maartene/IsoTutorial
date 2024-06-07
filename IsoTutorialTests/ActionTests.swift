@@ -302,4 +302,9 @@ final class ActionTests: XCTestCase {
         XCTAssertEqual(target.rotation, .degrees315)
     }
     
+    // MARK: TakeDamageAction
+    func test_takeDamageAction_doesNotEndTurn() {
+        let action = TakeDamageAction()
+        XCTAssertFalse(action.endsTurn)
+    }
 }
