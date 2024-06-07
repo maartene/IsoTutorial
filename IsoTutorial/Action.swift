@@ -120,7 +120,7 @@ struct AttackAction: Action {
     }
     
     func complete() {
-        target?.takeDamage(3)
+        target?.takeDamage(13)
         
         guard let owner, let target else {
             return

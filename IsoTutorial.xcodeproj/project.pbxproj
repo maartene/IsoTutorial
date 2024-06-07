@@ -134,6 +134,7 @@
 				DE9D1F112BC162F900243977 /* EntityView.swift */,
 				DECDAFD42BBAC9900087C4A6 /* ViewModel.swift */,
 				DE57F5BD2BB80A8700657F52 /* Action.swift */,
+				DE805ECA2C0B3FCE00EFF435 /* Battle.swift */,
 				DE9254D02B80C07D0037F961 /* Entity.swift */,
 				DE9254D22B80DF500037F961 /* Map.swift */,
 				DEEE103B2BAED4CF00936DCA /* Rotation.swift */,
@@ -145,7 +146,6 @@
 				DE01F7BF2B65296B00EAFF8F /* IsoTutorialApp.swift */,
 				DE01F7C32B65296D00EAFF8F /* Assets.xcassets */,
 				DE01F7C52B65296D00EAFF8F /* Preview Content */,
-				DE805ECA2C0B3FCE00EFF435 /* Battle.swift */,
 			);
 			path = IsoTutorial;
 			sourceTree = "<group>";

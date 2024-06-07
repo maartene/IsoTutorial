@@ -49,4 +49,8 @@ final class Entity {
         
         currentAction = TakeDamageAction()
     }
+    
+    var isActive: Bool {
+        currentHP > 0
+    }
 }

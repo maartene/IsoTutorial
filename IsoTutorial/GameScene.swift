@@ -45,7 +45,7 @@ final class GameScene: SKScene {
         }
               
         let map = viewModel.map
-        let entities = viewModel.entities
+        let entities = viewModel.battle.activeEntities
         
         let paths = entities.compactMap { ($0.currentAction as? MoveAction)?.path }
         
