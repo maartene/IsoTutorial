@@ -126,6 +126,16 @@ final class EntityTests: XCTestCase {
         XCTAssertTrue(entity.isActive)
     }
     
+    func test_takeDamage_setsCurrentAction_to_DefeatAction_whenCurrentHPZeroOrLower() throws {
+        let entity = Entity(sprite: "Entity", startPosition: .zero)
+        
+        entity.takeDamage(entity.currentHP)
+        
+        let currentAction = try XCTUnwrap(entity.currentAction)
+        
+        XCTAssertTrue(currentAction is DefeatAction)
+    }
+    
     // MARK: Teams
     func test_aNewEntity_doesNotHaveATeam() {
         let entity = Entity(sprite: "Entity", startPosition: .zero)

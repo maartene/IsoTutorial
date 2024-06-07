@@ -45,7 +45,7 @@ final class GameScene: SKScene {
         }
               
         let map = viewModel.map
-        let entities = viewModel.battle.activeEntities
+        let entities = viewModel.battle.entities
         
         let paths = entities.compactMap { ($0.currentAction as? MoveAction)?.path }
         
@@ -88,15 +88,15 @@ final class GameScene: SKScene {
             
             if let animation = animationFX.animation {
                     sprite.run(animation)
-            } else {
+                rootNode.addChild(sprite)
+            } else if entity.isActive {
                 sprite.run(.repeatForever(getAnimationForEntity(entity, animation: "Idle")))
+                rootNode.addChild(sprite)
             }
             
             for fx in animationFX.fx {
                 fxRootNode.addChild(fx)
             }
-            
-            rootNode.addChild(sprite)
         }
         
         viewModel.redrawCount += 1

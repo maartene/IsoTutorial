@@ -43,6 +43,8 @@ extension GameScene {
             }
         case is TakeDamageAction.Type:
             return (createTakeDamageAnimationForEntity(entity), [])
+        case is DefeatAction.Type:
+            return (createDefeatAnimationForEntity(entity), [])
         default:
             print("Not implemented action type \(currentAction). Returning fallback animation (complete only).")
             return (createCompleteActionForEntity(entity), [])
@@ -152,5 +154,15 @@ extension GameScene {
         let completeAction = createCompleteActionForEntity(entity)
         
         return SKAction.sequence([animation, completeAction])
+    }
+    
+    func createDefeatAnimationForEntity(_ entity: Entity) -> SKAction? {
+        let stuntDouble = entity.copy()
+        let animation = getAnimationForEntity(stuntDouble, animation: "TakeDamage")
+        let completeAction = createCompleteActionForEntity(entity)
+        
+        let action = SKAction.sequence([animation, .scaleY(to: 100, duration: 0.25), .hide(), completeAction])
+        
+        return action
     }
 }

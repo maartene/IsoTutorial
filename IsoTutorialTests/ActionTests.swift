@@ -212,6 +212,16 @@ final class ActionTests: XCTestCase {
         XCTAssertNil(maybeMoveAction)
     }
     
+    func test_reachableTiles_ignoresInActive_entities() {
+        let entity = Entity(sprite: "Example Entity", startPosition: .zero)
+        let otherEntity = Entity(sprite: "I'm in the way", startPosition: Vector3D(x: 1, y: 1, z: 1))
+        otherEntity.currentHP = 0
+        
+        let maybeMoveAction = MoveAction.make(in: exampleMap, for: entity, targetting: otherEntity.position, allEntities: [entity, otherEntity])
+        
+        XCTAssertNotNil(maybeMoveAction)
+    }
+    
     // MARK: (Melee)AttackAction
     func test_attackAction_complete_lowersHPOfTarget() {
         let entity = Entity(sprite: "Example Entity", startPosition: .zero)
@@ -245,6 +255,16 @@ final class ActionTests: XCTestCase {
     func test_attackAction_make_returnsNil_whenPositionOutOfRange_isPassedIn() {
         let entity = Entity(sprite: "Example Entity", startPosition: Vector3D(x: 0, y: 0, z: 1))
         let target = Entity(sprite: "Target Entity", startPosition: Vector3D(x: 0, y: 2, z: 1))
+        
+        let maybeAttackAction = AttackAction.make(in: exampleMap, for: entity, targetting: target.position, allEntities: [entity, target])
+        
+        XCTAssertNil(maybeAttackAction)
+    }
+    
+    func test_attackAction_make_returnsNil_whenPositionOfInActiveEntity_isPassedIn() {
+        let entity = Entity(sprite: "Example Entity", startPosition: Vector3D(x: 0, y: 0, z: 1))
+        let target = Entity(sprite: "Target Entity", startPosition: Vector3D(x: 0, y: 1, z: 1))
+        target.currentHP = 0
         
         let maybeAttackAction = AttackAction.make(in: exampleMap, for: entity, targetting: target.position, allEntities: [entity, target])
         

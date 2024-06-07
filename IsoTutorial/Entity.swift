@@ -47,7 +47,11 @@ final class Entity {
     func takeDamage(_ amount: Int) {
         currentHP -= amount
         
-        currentAction = TakeDamageAction()
+        if currentHP <= 0 {
+            currentAction = DefeatAction()
+        } else {
+            currentAction = TakeDamageAction()
+        }
     }
     
     var isActive: Bool {
