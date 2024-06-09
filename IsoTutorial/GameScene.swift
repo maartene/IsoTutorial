@@ -77,7 +77,8 @@ final class GameScene: SKScene {
             }
         } 
         
-        for entity in entities {
+        let entitiesToDraw = entities.filter { $0.shouldDraw }
+        for entity in entitiesToDraw {
             let sprite = SKSpriteNode(imageNamed: getIdleAnimationFirstFrameNameForEntity(entity, referenceRotation: rotation))
             let entityScreenPosition = convertWorldToScreen(entity.position, direction: rotation)
             sprite.anchorPoint = CGPoint(x: 0.5, y: 0.3)
@@ -88,11 +89,11 @@ final class GameScene: SKScene {
             
             if let animation = animationFX.animation {
                     sprite.run(animation)
-                rootNode.addChild(sprite)
-            } else if entity.isActive {
+            } else {
                 sprite.run(.repeatForever(getAnimationForEntity(entity, animation: "Idle")))
-                rootNode.addChild(sprite)
             }
+            
+            rootNode.addChild(sprite)
             
             for fx in animationFX.fx {
                 fxRootNode.addChild(fx)
@@ -148,5 +149,11 @@ extension CGPoint {
     
     var sqrMagnitude: Double {
         x * x + y * y
+    }
+}
+
+extension Entity {
+    var shouldDraw: Bool {
+        currentAction != nil || isActive
     }
 }
