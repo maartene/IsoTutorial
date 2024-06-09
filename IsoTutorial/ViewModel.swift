@@ -53,4 +53,8 @@ final class ViewModel: ObservableObject {
         currentAction = nil
         redraw?()
     }
+    
+    var isBusy: Bool {
+        entities.compactMap { $0.currentAction }.isEmpty == false
+    }
 }

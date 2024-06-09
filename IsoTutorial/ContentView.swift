@@ -101,6 +101,7 @@ struct ContentView: View {
             }
             .padding()
         }
+        .disabled(viewModel.isBusy)
         .ignoresSafeArea()
         .onAppear {
             scene.viewModel = viewModel
