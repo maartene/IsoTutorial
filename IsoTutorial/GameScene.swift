@@ -127,14 +127,9 @@ final class GameScene: SKScene {
         camera?.setScale(zoomLevel)
     }
     
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+    func processTap(at screenCoord: CGPoint) {
         let map = viewModel.map
-        
-        guard let touch = touches.first else {
-            return
-        }
-        
-        let scenePoint = convertPoint(fromView: touch.location(in: view))
+        let scenePoint = convertPoint(fromView: screenCoord)
         
         let nodeCoords = nodes(at: scenePoint)
             .sorted(by: { ($0.position - scenePoint).sqrMagnitude < ($1.position - scenePoint).sqrMagnitude })
@@ -146,8 +141,6 @@ final class GameScene: SKScene {
                 return coord
             }
             .filter { $0 == map.convertTo3D($0.xy) }
-    
-        
         
         if let clickedTile = nodeCoords.first {
             viewModel.clickTile(clickedTile)

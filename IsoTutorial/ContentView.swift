@@ -28,6 +28,13 @@ struct ContentView: View {
     var body: some View {
         ZStack {
             SpriteView(scene: scene)
+            
+            Color.green
+                .opacity(0.0001) // cheesy hack to create an interactable, 'invisible' view.
+                .onTapGesture { screenCoord in
+                    scene.processTap(at: screenCoord)
+                }
+            
             VStack {
                 Text("State: \(viewModel.battle.state)")
                     .font(.headline)
