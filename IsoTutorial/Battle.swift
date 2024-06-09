@@ -8,6 +8,12 @@
 import Foundation
 
 final class Battle {
+    enum BattleState: Equatable {
+        case undecided
+        case draw
+        case won(team: String)
+    }
+    
     private let _entities: [Entity]
     
     init(entities: [Entity]) {
@@ -28,15 +34,37 @@ final class Battle {
         return _entities
     }
     
+    var undefeatedEntities: [Entity] {
+        entities.filter { $0.isActive }
+    }
+    
     var activeTeam: String {
-        entities.first { $0.hasActed == false }?.team ?? ""
+        undefeatedEntities.first { $0.hasActed == false }?.team ?? ""
     }
     
     private func checkNextTurn() {
-        if _entities.filter({ $0.hasActed == false }).count == 0 {
+        if _entities.filter({ $0.hasActed == false && $0.isActive }).count == 0 {
             for entity in _entities {
                 entity.hasActed = false
             }
+        }
+    }
+    
+    var state: BattleState {
+        let undefeatedTeams = undefeatedEntities.map { $0.team }
+            .reduce(into: [String]()) { result, teamName in
+                if result.contains(teamName) == false {
+                    result.append(teamName)
+                }
+            }
+        
+        switch undefeatedTeams.count {
+        case 0:
+            return .draw
+        case 1:
+            return .won(team: undefeatedTeams[0])
+        default:
+            return .undecided
         }
     }
 }

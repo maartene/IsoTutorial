@@ -15,6 +15,7 @@ final class Entity {
     let range: Int
     let maxHeightDifference: Int
     var currentHP = 10
+    //var currentHP = 1
     let attackRange: Int
     var team: String
     var hasActed = false
@@ -46,7 +47,14 @@ final class Entity {
     
     func takeDamage(_ amount: Int) {
         currentHP -= amount
-        
-        currentAction = TakeDamageAction()
+        if currentHP <= 0 {
+            currentAction = DefeatAction()
+        } else {
+            currentAction = TakeDamageAction()
+        }
+    }
+    
+    var isActive: Bool {
+        currentHP > 0
     }
 }

@@ -212,6 +212,16 @@ final class ActionTests: XCTestCase {
         XCTAssertNil(maybeMoveAction)
     }
     
+    func test_reachableTiles_ignoresInactive_entities() {
+        let entity = Entity(sprite: "Example Entity", startPosition: .zero)
+        let otherEntity = Entity(sprite: "I'm dead", startPosition: Vector3D(x: 1, y: 1, z: 1))
+        otherEntity.currentHP = 0
+        
+        let maybeMoveAction = MoveAction.make(in: exampleMap, for: entity, targetting: otherEntity.position, allEntities: [entity, otherEntity])
+        
+        XCTAssertNotNil(maybeMoveAction)
+    }
+    
     // MARK: (Melee)AttackAction
     func test_attackAction_complete_lowersHPOfTarget() {
         let entity = Entity(sprite: "Example Entity", startPosition: .zero)
@@ -278,6 +288,16 @@ final class ActionTests: XCTestCase {
         
         XCTAssertEqual(attacker.rotation, .degrees135)
         XCTAssertEqual(target.rotation, .degrees315)
+    }
+    
+    func test_attackAction_make_returnsNil_whenPosiitonOfInactiveEntity_isPassedIn() {
+        let attacker = Entity(sprite: "Attacking Entity", startPosition: Vector3D(x: 0, y: 0, z: 1))
+        let target = Entity(sprite: "Target Entity", startPosition: Vector3D(x: 0, y: 1, z: 1))
+        target.currentHP = 0
+        
+        let maybeAttackAction = AttackAction.make(in: exampleMap, for: attacker, targetting: target.position, allEntities: [attacker, target])
+        
+        XCTAssertNil(maybeAttackAction)
     }
     
     // MARK: Ranged attacks

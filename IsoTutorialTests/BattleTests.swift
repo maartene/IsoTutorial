@@ -62,4 +62,53 @@ final class BattleTests: XCTestCase {
             XCTAssertFalse(entity.hasActed)
         }
     }
+    
+    func test_onlyActiveEntities_determineActiveTeam() {
+        let battle = Battle(entities: exampleEntities)
+        
+        battle.entities[0].hasActed = true
+        battle.entities[1].currentHP = 0
+        
+        XCTAssertEqual(battle.activeTeam, "AI1")
+    }
+    
+    // MARK: Battle state
+    func test_aNewBattle_isInState_undecided() {
+        let battle = Battle(entities: exampleEntities)
+        XCTAssertEqual(battle.state, .undecided)
+    }
+    
+    func test_whenAllEntitiesAreDefeated_stateIs_draw() {
+        let battle = Battle(entities: exampleEntities)
+        battle.entities.forEach { $0.currentHP = 0 }
+        XCTAssertEqual(battle.state, .draw)
+    }
+    
+    func test_whenAllEntitiesOfOtherTeamsAreDefeated_stateIsWon() {
+        let battle = Battle(entities: exampleEntities)
+        
+        for i in 0 ..< 5 {
+            battle.entities[i].currentHP = 0
+        }
+        
+        guard case .won(_) = battle.state else {
+            XCTFail("Expected a 'won' state, found: \(battle.state)")
+            return
+        }
+    }
+    
+    func test_whenAllEntitiesOfOtherTeamsAreDefeated_wonState_containsWinningTeam() {
+        let battle = Battle(entities: exampleEntities)
+        
+        for i in 0 ..< 5 {
+            battle.entities[i].currentHP = 0
+        }
+        
+        guard case .won(let team) = battle.state else {
+            XCTFail("Expected a 'won' state, found: \(battle.state)")
+            return
+        }
+
+        XCTAssertEqual(team, "AI2")
+    }
 }

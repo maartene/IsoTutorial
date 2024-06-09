@@ -54,7 +54,9 @@ struct MoveAction: Action {
     
     static func reachableTiles(in map: Map, for entity: Entity, allEntities: [Entity] = []) -> [Vector3D] {
         let dijkstra = map.dijkstra(target: entity.position.xy, maxHeightDifference: entity.maxHeightDifference)
-        let occupiedTiles = allEntities.map { $0.position.xy }
+        let occupiedTiles = allEntities
+            .filter { $0.isActive }
+            .map { $0.position.xy }
         
         return dijkstra.filter { $0.value <= entity.range }
             .filter { occupiedTiles.contains($0.key) == false }
@@ -116,6 +118,10 @@ struct AttackAction: Action {
             return nil
         }
         
+        guard targetEntity.isActive else {
+            return nil
+        }
+        
         return AttackAction(owner: entity, target: targetEntity)
     }
     
@@ -148,4 +154,11 @@ struct TakeDamageAction: Action {
     }
     
     let endsTurn = false
+}
+
+// MARK: DefeatAction
+struct DefeatAction: Action {
+    static func make(in map: Map, for entity: Entity, targetting: Vector3D, allEntities: [Entity]) -> DefeatAction? {
+        DefeatAction()
+    }
 }
