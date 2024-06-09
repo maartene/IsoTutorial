@@ -42,7 +42,7 @@ final class ViewModel: ObservableObject {
             }
         } else {
             selectedEntity = nil
-            if let entity = entities.first(where: { $0.position == tile }) {
+            if let entity = entities.first(where: { $0.position == tile }), entity.isActive {
                 selectedEntity = entity
             }
         }

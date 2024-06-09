@@ -65,12 +65,31 @@ struct ContentView: View {
                 }
                 
                 HStack {
-                    Button("Rotate CCW") {
+                    Button("Zoom Out", systemImage: "minus.magnifyingglass") {
+                        scene.zoomOut()
+                    }
+                    .font(.largeTitle)
+                    .labelStyle(.iconOnly)
+                    .padding()
+                    
+                    Button("Zoom In", systemImage: "plus.magnifyingglass") {
+                        scene.zoomIn()
+                    }.font(.largeTitle)
+                    .labelStyle(.iconOnly)
+                    .padding()
+                    Button("Rotate Counter Clockwise", systemImage: "arrow.counterclockwise") {
                         scene.rotateCCW()
                     }
-                    Button("Rotate CW") {
+                    .font(.largeTitle)
+                    .labelStyle(.iconOnly)
+                    .padding()
+                    
+                    Button("Rotate Clockwise", systemImage: "arrow.clockwise") {
                         scene.rotateCW()
-                    }                    
+                    }
+                    .font(.largeTitle)
+                        .labelStyle(.iconOnly)
+                        .padding()
                 }
             }
             .padding()

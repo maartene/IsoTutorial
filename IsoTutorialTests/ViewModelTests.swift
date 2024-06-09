@@ -64,6 +64,16 @@ final class ViewModelTests: XCTestCase {
         XCTAssertNil(viewModel.selectedEntity)
     }
     
+    func test_clickTile_ignoresDefeatedEntities() {
+        let entity = Entity(sprite: "Example Entity", startPosition: .random)
+        let viewModel = ViewModel(map: exampleMap, entities: [entity])
+        entity.currentHP = 0
+        
+        viewModel.clickTile(entity.position)
+        
+        XCTAssertNil(viewModel.selectedEntity)
+    }
+    
     // MARK: Combine tests
     var cancellables = Set<AnyCancellable>()
     var receivedTiles = [Vector3D?]()
