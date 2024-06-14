@@ -28,6 +28,13 @@ struct ContentView: View {
     var body: some View {
         ZStack {
             SpriteView(scene: scene)
+            
+            Color.green
+                .opacity(0.0001) // cheesy hack to create an interactable, 'invisible' view.
+                .onTapGesture { screenCoord in
+                    scene.processTap(at: screenCoord)
+                }
+            
             VStack {
                 Text("State: \(viewModel.battle.state)")
                     .font(.headline)
@@ -65,16 +72,36 @@ struct ContentView: View {
                 }
                 
                 HStack {
-                    Button("Rotate CCW") {
+                    Button("Zoom Out", systemImage: "minus.magnifyingglass") {
+                        scene.zoomOut()
+                    }
+                    .font(.largeTitle)
+                    .labelStyle(.iconOnly)
+                    .padding()
+                    
+                    Button("Zoom In", systemImage: "plus.magnifyingglass") {
+                        scene.zoomIn()
+                    }.font(.largeTitle)
+                    .labelStyle(.iconOnly)
+                    .padding()
+                    Button("Rotate Counter Clockwise", systemImage: "arrow.counterclockwise") {
                         scene.rotateCCW()
                     }
-                    Button("Rotate CW") {
+                    .font(.largeTitle)
+                    .labelStyle(.iconOnly)
+                    .padding()
+                    
+                    Button("Rotate Clockwise", systemImage: "arrow.clockwise") {
                         scene.rotateCW()
-                    }                    
+                    }
+                    .font(.largeTitle)
+                        .labelStyle(.iconOnly)
+                        .padding()
                 }
             }
             .padding()
         }
+        .disabled(viewModel.isBusy)
         .ignoresSafeArea()
         .onAppear {
             scene.viewModel = viewModel

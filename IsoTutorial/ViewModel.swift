@@ -42,7 +42,7 @@ final class ViewModel: ObservableObject {
             }
         } else {
             selectedEntity = nil
-            if let entity = entities.first(where: { $0.position == tile }) {
+            if let entity = entities.first(where: { $0.position == tile }), entity.isActive {
                 selectedEntity = entity
             }
         }
@@ -52,5 +52,9 @@ final class ViewModel: ObservableObject {
         selectedEntity?.currentAction = currentAction
         currentAction = nil
         redraw?()
+    }
+    
+    var isBusy: Bool {
+        entities.compactMap { $0.currentAction }.isEmpty == false
     }
 }

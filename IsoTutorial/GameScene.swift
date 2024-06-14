@@ -9,9 +9,11 @@ import Foundation
 import SpriteKit
 
 final class GameScene: SKScene {
-
     var viewModel: ViewModel!
-        
+    
+    let zoomLevels = [1.0, 0.5, 0.25]
+    var zoomLevelIndex = 1
+    
     var rotation = Rotation.defaultRotation
     let cameraNode = SKCameraNode()
     let rootNode = SKNode()
@@ -36,7 +38,7 @@ final class GameScene: SKScene {
     }
     
     func redraw() {
-        let cameraScreenPosition = convertWorldToScreen(Vector3D(x: 2, y: 2), direction: rotation)
+        let cameraScreenPosition = convertWorldToScreen(viewModel.selectedTile ?? Vector3D(x: 2, y: 2), direction: rotation)
         cameraNode.position = CGPoint(x: cameraScreenPosition.x, y: cameraScreenPosition.y)
         
         // cleanup old nodes
@@ -113,14 +115,22 @@ final class GameScene: SKScene {
         redraw()
     }
     
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+    func zoomIn() {
+        zoomLevelIndex = min(zoomLevelIndex + 1, zoomLevels.count - 1)
+        let zoomLevel = self.zoomLevels[zoomLevelIndex]
+        camera?.setScale(zoomLevel)
+    }
+    
+    func zoomOut() {
+        zoomLevelIndex = max(zoomLevelIndex - 1, 0)
+        let zoomLevel = self.zoomLevels[zoomLevelIndex]
+        camera?.setScale(zoomLevel)
+    }
+    
+    func processTap(at screenCoord: CGPoint) {
         let map = viewModel.map
+        let scenePoint = convertPoint(fromView: screenCoord)
         
-        guard let touch = touches.first else {
-            return
-        }
-        
-        let scenePoint = convertPoint(fromView: touch.location(in: view))
         let nodeCoords = nodes(at: scenePoint)
             .sorted(by: { ($0.position - scenePoint).sqrMagnitude < ($1.position - scenePoint).sqrMagnitude })
             .compactMap { node -> Vector3D? in
@@ -131,8 +141,6 @@ final class GameScene: SKScene {
                 return coord
             }
             .filter { $0 == map.convertTo3D($0.xy) }
-    
-        
         
         if let clickedTile = nodeCoords.first {
             viewModel.clickTile(clickedTile)
